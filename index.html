@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏠 Mudança Colaborativa | Irajá → Granja Viana</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏠 Mudança Colaborativa</h1>
+            <p>4 Moradoras + 4 Gatos | Irajá RJ → Granja Viana SP</p>
+            <small>✨ Conectado automaticamente ao Google Sheets</small>
+        </div>
+
+        <!-- Main App -->
+        <div id="mainApp">
+            <!-- Connection Status Bar -->
+            <div id="topStatus" class="connection-status status-loading">
+                🔄 Carregando suas tarefas do Google Sheets...
+            </div>
+            
+            <!-- Link para Google Sheets -->
+            <div id="sheetsLinkPanel" class="sheets-link-panel" style="display: none;">
+                <div class="sheets-link-content">
+                    <p>📊 <strong>Acesse a planilha diretamente:</strong></p>
+                    <a href="https://docs.google.com/spreadsheets/d/1f5-GmD7WqN8rZxY4vC2sE9uJ3hK6lP8oQ1nM5tR7wA0/edit" target="_blank" class="btn btn-secondary">
+                        🔗 Abrir Google Sheets
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats" id="stats">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>🔍 Buscar tarefa</label>
+                        <input type="text" id="searchInput" placeholder="Digite para buscar...">
+                    </div>
+                    <div class="filter-group">
+                        <label>👤 Responsável</label>
+                        <select id="responsibleFilter">
+                            <option value="">Todas as pessoas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>📋 Status</label>
+                        <select id="statusFilter">
+                            <option value="">Todos os status</option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Fazendo">Fazendo</option>
+                            <option value="Feito">Feito</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>📅 Fase</label>
+                        <select id="phaseFilter">
+                            <option value="">Todas as fases</option>
+                            <option value="PREP">Preparação</option>
+                            <option value="CONTRATO">Contrato</option>
+                            <option value="MUDANÇA">Mudança</option>
+                            <option value="INTEGRAÇÃO">Integração</option>
+                            <option value="FINALIZAÇÃO">Finalização</option>
+                            <option value="EMERGÊNCIA">Emergência</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="control-buttons">
+                    <button id="addTaskBtn" class="btn">➕ Nova Tarefa</button>
+                    <button id="refreshBtn" class="btn btn-secondary">🔄 Atualizar</button>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-section">
+                <h4>📈 Progresso da Mudança</h4>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+                <p id="progressText">0% concluído (0 de 0 tarefas)</p>
+            </div>
+
+            <!-- Tasks -->
+            <div class="tasks-container">
+                <div id="tasksContainer">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Carregando suas tarefas...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Nova Tarefa</h3>
+                <button class="close" id="closeModal">&times;</button>
+            </div>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label>📝 Nome da Tarefa</label>
+                    <input type="text" id="taskName" required placeholder="Ex: Trocar odores entre gatos">
+                </div>
+                <div class="form-group">
+                    <label>📅 Fase</label>
+                    <select id="taskPhase" required>
+                        <option value="">Selecione a fase...</option>
+                        <option value="PREP">🔧 Preparação</option>
+                        <option value="CONTRATO">📋 Contrato</option>
+                        <option value="MUDANÇA">📦 Mudança</option>
+                        <option value="INTEGRAÇÃO">🐱 Integração</option>
+                        <option value="FINALIZAÇÃO">✅ Finalização</option>
+                        <option value="EMERGÊNCIA">🚨 Emergência</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>👤 Responsável</label>
+                    <select id="taskResponsible" required>
+                        <option value="">Selecione...</option>
+                        <option value="Ana">Ana</option>
+                        <option value="Beatriz">Beatriz</option>
+                        <option value="Carla">Carla</option>
+                        <option value="Diana">Diana</option>
+                        <option value="Todas">Todas</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>📅 Prazo</label>
+                    <input type="date" id="taskDate">
+                </div>
+                <div class="form-group">
+                    <label>📊 Status</label>
+                    <select id="taskStatus" required>
+                        <option value="Pendente">⏳ Pendente</option>
+                        <option value="Fazendo">🔄 Fazendo</option>
+                        <option value="Feito">✅ Feito</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>📝 Observações</label>
+                    <textarea id="taskNotes" placeholder="Detalhes, links, observações importantes..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">💾 Salvar Tarefa</button>
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">❌ Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
