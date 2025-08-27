@@ -758,7 +758,7 @@
             return data.toLocaleDateString('pt-BR');
         }
 
-        // 📤 Adicionar tarefa - JSONP também
+        // 📤 Adicionar tarefa - JSONP PURO
         async function adicionarTarefa(dados) {
             const url = document.getElementById('appsScriptUrl').value.trim();
             
@@ -773,34 +773,71 @@
                 return true;
             }
 
-            try {
-                // Tentar POST primeiro
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'adicionarTarefa', data: dados })
+            console.log('📤 Adicionando via JSONP:', dados);
+            
+            return new Promise((resolve, reject) => {
+                // Callback único
+                const callbackName = 'addTask' + Date.now();
+                const script = document.createElement('script');
+                
+                // Timeout
+                const timeout = setTimeout(() => {
+                    if (script.parentNode) {
+                        document.head.removeChild(script);
+                    }
+                    delete window[callbackName];
+                    updateStatus('error', '⏰ Timeout ao adicionar');
+                    reject(new Error('Timeout'));
+                }, 10000);
+
+                // Callback global
+                window[callbackName] = function(data) {
+                    clearTimeout(timeout);
+                    if (script.parentNode) {
+                        document.head.removeChild(script);
+                    }
+                    delete window[callbackName];
+                    
+                    console.log('📥 Resposta ao adicionar:', data);
+                    
+                    if (data && data.success) {
+                        updateStatus('connected', '✅ Salvo no Google Sheets!');
+                        // Recarregar dados para sincronizar
+                        setTimeout(() => carregarDados(), 500);
+                    } else {
+                        updateStatus('error', '❌ Erro: ' + (data?.error || 'Falha ao salvar'));
+                        console.error('Erro na resposta:', data);
+                    }
+                    
+                    resolve(data && data.success);
+                };
+
+                // Montar URL JSONP com parâmetros
+                const params = new URLSearchParams({
+                    callback: callbackName,
+                    action: 'adicionarTarefa',
+                    fase: dados.fase,
+                    tarefa: dados.tarefa,
+                    responsaveis: dados.responsaveis,
+                    prazo: dados.prazo,
+                    status: dados.status,
+                    observacoes: dados.observacoes || ''
                 });
-
-                const result = await response.json();
                 
-                if (result.success) {
-                    updateStatus('connected', '✅ Salvo no Google Sheets!');
-                    return true;
-                } else {
-                    throw new Error(result.error || 'Erro do servidor');
-                }
-
-            } catch (error) {
-                console.error('POST falhou, mas salvo localmente:', error);
-                updateStatus('error', '💾 Salvo localmente - CORS impediu sync');
+                const jsonpUrl = `${url}?${params.toString()}`;
+                script.src = jsonpUrl;
                 
-                // Tentar recarregar via JSONP para sincronizar
-                setTimeout(() => {
-                    carregarDados();
-                }, 1000);
+                console.log('🌐 Chamando ADD via JSONP:', jsonpUrl);
                 
-                return false;
-            }
+                script.onerror = function() {
+                    clearTimeout(timeout);
+                    delete window[callbackName];
+                    updateStatus('error', '❌ Erro ao executar script');
+                    reject(new Error('Script error'));
+                };
+                
+                document.head.appendChild(script);
+            });
         }
 
         // ✏️ Editar tarefa
