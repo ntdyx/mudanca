@@ -67,6 +67,20 @@
             margin-bottom: 40px;
             padding-bottom: 20px;
             border-bottom: 1px solid var(--border-primary);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         h1 {
@@ -89,6 +103,32 @@
 
         .theme-toggle:hover {
             background: var(--border-primary);
+        }
+
+        .btn-add-task {
+            background: var(--success);
+            color: white;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .btn-add-task:hover:not(:disabled) {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Seção de adicionar tarefa - inicialmente escondida */
+        .add-task-section {
+            display: none;
+        }
+
+        .add-task-section.show {
+            display: block;
+            animation: slideIn 0.3s ease;
         }
 
         /* Cards */
@@ -523,6 +563,11 @@
                 text-align: center;
             }
             
+            .header-left,
+            .header-right {
+                justify-content: center;
+            }
+            
             .form-row, .filters .form-row, .config-buttons {
                 grid-template-columns: 1fr;
             }
@@ -559,67 +604,22 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📦 Organizador de Mudança</h1>
-            <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
-                <span id="themeIcon">🌙</span>
-            </button>
+            <div class="header-left">
+                <h1>📦 Organizador de Mudança</h1>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-add-task" onclick="toggleAddTask()">
+                    ➕ Nova Tarefa
+                </button>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
+                    <span id="themeIcon">🌙</span>
+                </button>
+            </div>
         </div>
         
         <!-- Warning sobre CodePen - só se necessário -->
         <div class="warning-box" id="warningBox" style="display: none;">
             ⚠️ <strong>IMPORTANTE:</strong> Se estiver no CodePen, baixe este arquivo e abra localmente!
-        </div>
-
-        <!-- Formulário -->
-        <div class="card form-section">
-            <div class="card-title">
-                ➕ Adicionar Nova Tarefa
-            </div>
-            <form id="taskForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="fase">Fase</label>
-                        <select id="fase" required>
-                            <option value="">Selecionar fase</option>
-                            <option value="Planejamento">Planejamento</option>
-                            <option value="Preparação">Preparação</option>
-                            <option value="Execução">Execução</option>
-                            <option value="Finalização">Finalização</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="tarefa">Tarefa</label>
-                        <input type="text" id="tarefa" required placeholder="Descrição da tarefa">
-                    </div>
-                    <div class="form-group">
-                        <label for="responsaveis">Responsáveis</label>
-                        <input type="text" id="responsaveis" required placeholder="Nome1, Nome2, Nome3">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="prazo">Prazo</label>
-                        <input type="date" id="prazo" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select id="status" required>
-                            <option value="">Selecionar status</option>
-                            <option value="Pendente">Pendente</option>
-                            <option value="Em Andamento">Em Andamento</option>
-                            <option value="Concluída">Concluída</option>
-                            <option value="Atrasada">Atrasada</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="observacoes">Observações</label>
-                    <textarea id="observacoes" placeholder="Observações adicionais (opcional)"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    ➕ Adicionar Tarefa
-                </button>
-            </form>
         </div>
 
         <!-- Filtros -->
@@ -674,6 +674,61 @@
                     <!-- Dados serão carregados via JavaScript -->
                 </tbody>
             </table>
+        </div>
+
+        <!-- Formulário - Agora como seção retrátil -->
+        <div class="card form-section add-task-section" id="addTaskSection">
+            <div class="card-title">
+                ➕ Adicionar Nova Tarefa
+                <button class="btn btn-secondary" onclick="toggleAddTask()" style="margin-left: auto;">
+                    ✕ Fechar
+                </button>
+            </div>
+            <form id="taskForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fase">Fase</label>
+                        <select id="fase" required>
+                            <option value="">Selecionar fase</option>
+                            <option value="Planejamento">Planejamento</option>
+                            <option value="Preparação">Preparação</option>
+                            <option value="Execução">Execução</option>
+                            <option value="Finalização">Finalização</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tarefa">Tarefa</label>
+                        <input type="text" id="tarefa" required placeholder="Descrição da tarefa">
+                    </div>
+                    <div class="form-group">
+                        <label for="responsaveis">Responsáveis</label>
+                        <input type="text" id="responsaveis" required placeholder="Nome1, Nome2, Nome3">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prazo">Prazo</label>
+                        <input type="date" id="prazo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" required>
+                            <option value="">Selecionar status</option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Em Andamento">Em Andamento</option>
+                            <option value="Concluída">Concluída</option>
+                            <option value="Atrasada">Atrasada</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="observacoes">Observações</label>
+                    <textarea id="observacoes" placeholder="Observações adicionais (opcional)"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    ➕ Adicionar Tarefa
+                </button>
+            </form>
         </div>
     </div>
 
@@ -736,7 +791,25 @@
         // 🔗 URL DO APPS SCRIPT - HARDCODED
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw470Btw73qudZg59IONrTsyGQo8XvBDq6eZMBVxFzTUuMr4g2ndLxrfE4Y2WhTyem7/exec';
 
-        // 🌙 Toggle Theme
+        // 🎯 Toggle Add Task Section
+        function toggleAddTask() {
+            const section = document.getElementById('addTaskSection');
+            const isVisible = section.classList.contains('show');
+            
+            if (isVisible) {
+                section.classList.remove('show');
+                console.log('📝 Seção de adicionar fechada');
+            } else {
+                section.classList.add('show');
+                // Scroll suave até a seção
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Focar no primeiro campo
+                setTimeout(() => {
+                    document.getElementById('fase').focus();
+                }, 300);
+                console.log('📝 Seção de adicionar aberta');
+            }
+        }
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -1146,8 +1219,8 @@
             document.getElementById('editModal').style.display = 'block';
         }
 
-        // 💾 Salvar edição - com data corrigida
-        function salvarEdicao(id, dados) {
+        // 💾 Salvar edição - COM SYNC na planilha
+        async function salvarEdicao(id, dados) {
             // Converter data se necessário
             let dataFormatada = dados.prazo;
             if (dados.prazo && dados.prazo.includes('-')) {
@@ -1160,24 +1233,143 @@
                 prazo: dataFormatada
             };
             
+            // Atualizar localmente primeiro
             const taskIndex = tasks.findIndex(t => t.id == id);
             if (taskIndex !== -1) {
                 tasks[taskIndex] = { id: parseInt(id), ...dadosFormatados };
                 carregarTabela();
                 salvarDados();
             }
-            return true;
+            
+            console.log('📝 Atualizando na planilha...', { id, dadosFormatados });
+            
+            return new Promise((resolve, reject) => {
+                // Callback único
+                const callbackName = 'editTask' + Date.now();
+                const script = document.createElement('script');
+                
+                // Timeout
+                const timeout = setTimeout(() => {
+                    if (script.parentNode) {
+                        document.head.removeChild(script);
+                    }
+                    delete window[callbackName];
+                    console.warn('⏰ Timeout ao editar - mantido localmente');
+                    reject(new Error('Timeout'));
+                }, 10000);
+
+                // Callback global
+                window[callbackName] = function(data) {
+                    clearTimeout(timeout);
+                    if (script.parentNode) {
+                        document.head.removeChild(script);
+                    }
+                    delete window[callbackName];
+                    
+                    if (data && data.success) {
+                        console.log('✅ Tarefa editada na planilha!');
+                        // Recarregar dados para sincronizar
+                        setTimeout(() => carregarDados(true), 500);
+                    } else {
+                        console.error('❌ Erro ao editar na planilha:', data?.error || 'Falha desconhecida');
+                    }
+                    
+                    resolve(data && data.success);
+                };
+
+                // Montar URL JSONP com parâmetros
+                const params = new URLSearchParams({
+                    callback: callbackName,
+                    action: 'atualizarTarefa',
+                    id: id,
+                    fase: dadosFormatados.fase,
+                    tarefa: dadosFormatados.tarefa,
+                    responsaveis: dadosFormatados.responsaveis,
+                    prazo: dadosFormatados.prazo,
+                    status: dadosFormatados.status,
+                    observacoes: dadosFormatados.observacoes || ''
+                });
+                
+                const jsonpUrl = `${APPS_SCRIPT_URL}?${params.toString()}`;
+                script.src = jsonpUrl;
+                
+                script.onerror = function() {
+                    clearTimeout(timeout);
+                    delete window[callbackName];
+                    console.error('❌ Erro ao executar script - mantido localmente');
+                    reject(new Error('Script error'));
+                };
+                
+                document.head.appendChild(script);
+            });
         }
 
-        // 🗑️ Excluir tarefa
-        function excluirTarefa(id) {
+        // 🗑️ Excluir tarefa - COM SYNC na planilha
+        async function excluirTarefa(id) {
             if (!confirm('Tem certeza que deseja excluir esta tarefa?')) {
                 return;
             }
 
+            // Remover localmente primeiro
             tasks = tasks.filter(t => t.id != id);
             carregarTabela();
             salvarDados();
+            
+            console.log('🗑️ Excluindo da planilha...', { id });
+            
+            return new Promise((resolve, reject) => {
+                // Callback único
+                const callbackName = 'deleteTask' + Date.now();
+                const script = document.createElement('script');
+                
+                // Timeout
+                const timeout = setTimeout(() => {
+                    if (script.parentNode) {
+                        document.head.removeChild(script);
+                    }
+                    delete window[callbackName];
+                    console.warn('⏰ Timeout ao excluir - removido localmente');
+                    reject(new Error('Timeout'));
+                }, 10000);
+
+                // Callback global
+                window[callbackName] = function(data) {
+                    clearTimeout(timeout);
+                    if (script.parentNode) {
+                        document.head.removeChild(script);
+                    }
+                    delete window[callbackName];
+                    
+                    if (data && data.success) {
+                        console.log('✅ Tarefa excluída da planilha!');
+                        // Recarregar dados para sincronizar
+                        setTimeout(() => carregarDados(true), 500);
+                    } else {
+                        console.error('❌ Erro ao excluir da planilha:', data?.error || 'Falha desconhecida');
+                    }
+                    
+                    resolve(data && data.success);
+                };
+
+                // Montar URL JSONP com parâmetros
+                const params = new URLSearchParams({
+                    callback: callbackName,
+                    action: 'excluirTarefa',
+                    id: id
+                });
+                
+                const jsonpUrl = `${APPS_SCRIPT_URL}?${params.toString()}`;
+                script.src = jsonpUrl;
+                
+                script.onerror = function() {
+                    clearTimeout(timeout);
+                    delete window[callbackName];
+                    console.error('❌ Erro ao executar script - removido localmente');
+                    reject(new Error('Script error'));
+                };
+                
+                document.head.appendChild(script);
+            });
         }
 
         // 🔍 Filtros
@@ -1250,6 +1442,9 @@
                 
                 await adicionarTarefa(dados);
                 this.reset();
+                
+                // Fechar seção após adicionar
+                document.getElementById('addTaskSection').classList.remove('show');
             });
             
             // Formulário de edição
@@ -1266,8 +1461,9 @@
                     observacoes: document.getElementById('editObservacoes').value
                 };
                 
-                salvarEdicao(id, dados);
-                fecharModal();
+                salvarEdicao(id, dados).then(() => {
+                    fecharModal();
+                });
             });
             
             // Filtros
