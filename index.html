@@ -3,163 +3,913 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏠 Mudança Colaborativa | Irajá → Granja Viana</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
-    <link rel="stylesheet" href="styles.css">
+    <title>Organizador de Mudança</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #000;
+        }
+
+        .config-section {
+            background: #e8f4fd;
+            border: 2px solid #007bff;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .config-section h2 {
+            color: #007bff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #007bff;
+            margin: 10px 0;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .config-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .status-display {
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #000;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .status-connected {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .status-offline {
+            background: #f8f9fa;
+            border-color: #6c757d;
+            color: #495057;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            border: 2px solid #000;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #000;
+            font-size: 0.9rem;
+        }
+
+        input, select, textarea {
+            padding: 12px;
+            border: 2px solid #000;
+            background: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #333;
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: 2px solid #000;
+            background: #000;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-test {
+            background: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-test:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-secondary:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border: 2px solid #000;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        th {
+            background: #000;
+            color: #fff;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid;
+        }
+
+        .status-pendente {
+            background: #fff;
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .status-em-andamento {
+            background: #fff;
+            color: #007bff;
+            border-color: #007bff;
+        }
+
+        .status-concluída {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+
+        .status-atrasada {
+            background: #fff;
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .responsaveis {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .responsavel-tag {
+            background: #f8f9fa;
+            border: 1px solid #000;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            border: 1px solid;
+            background: #fff;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .edit-btn {
+            color: #007bff;
+            border-color: #007bff;
+        }
+
+        .edit-btn:hover {
+            background: #007bff;
+            color: #fff;
+        }
+
+        .delete-btn {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background: #dc3545;
+            color: #fff;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            border: 2px solid #000;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #000;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .form-row, .filters, .config-buttons {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>🏠 Mudança Colaborativa</h1>
-            <p>4 Moradoras + 4 Gatos | Irajá RJ → Granja Viana SP</p>
-            <small>✨ Conectado automaticamente ao Google Sheets</small>
+        <h1>📦 Organizador de Mudança</h1>
+        
+        <!-- Warning sobre CodePen -->
+        <div class="warning-box" id="warningBox">
+            ⚠️ <strong>IMPORTANTE:</strong> Se estiver no CodePen, baixe este arquivo e abra localmente para conectar com Apps Script!
         </div>
 
-        <!-- Main App -->
-        <div id="mainApp">
-            <!-- Connection Status Bar -->
-            <div id="topStatus" class="connection-status status-loading">
-                🔄 Carregando suas tarefas do Google Sheets...
+        <!-- Configuração -->
+        <div class="config-section">
+            <h2>🔗 Conectar com Google Sheets</h2>
+            <input type="url" id="appsScriptUrl" class="url-input" 
+                   placeholder="Cole aqui a URL do seu Apps Script"
+                   value="">
+            
+            <div class="config-buttons">
+                <button class="btn btn-test" onclick="testarConexao()">🧪 Testar Conexão</button>
+                <button class="btn btn-secondary" onclick="carregarDados()">🔄 Carregar Dados</button>
             </div>
             
-            <!-- Link para Google Sheets -->
-            <div id="sheetsLinkPanel" class="sheets-link-panel" style="display: none;">
-                <div class="sheets-link-content">
-                    <p>📊 <strong>Acesse a planilha diretamente:</strong></p>
-                    <a href="https://docs.google.com/spreadsheets/d/1f5-GmD7WqN8rZxY4vC2sE9uJ3hK6lP8oQ1nM5tR7wA0/edit" target="_blank" class="btn btn-secondary">
-                        🔗 Abrir Google Sheets
-                    </a>
-                </div>
+            <div id="connectionStatus" class="status-display status-offline">
+                🔌 Cole a URL do Apps Script e clique "Testar Conexão"
             </div>
+        </div>
 
-            <!-- Stats -->
-            <div class="stats" id="stats">
-                <!-- Will be populated by JavaScript -->
-            </div>
-
-            <!-- Controls -->
-            <div class="controls">
-                <div class="filters">
-                    <div class="filter-group">
-                        <label>🔍 Buscar tarefa</label>
-                        <input type="text" id="searchInput" placeholder="Digite para buscar...">
-                    </div>
-                    <div class="filter-group">
-                        <label>👤 Responsável</label>
-                        <select id="responsibleFilter">
-                            <option value="">Todas as pessoas</option>
+        <!-- Formulário -->
+        <div class="form-section">
+            <h2 style="margin-bottom: 20px; color: #000;">Adicionar Nova Tarefa</h2>
+            <form id="taskForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fase">Fase</label>
+                        <select id="fase" required>
+                            <option value="">Selecionar fase</option>
+                            <option value="Planejamento">Planejamento</option>
+                            <option value="Preparação">Preparação</option>
+                            <option value="Execução">Execução</option>
+                            <option value="Finalização">Finalização</option>
                         </select>
                     </div>
-                    <div class="filter-group">
-                        <label>📋 Status</label>
-                        <select id="statusFilter">
-                            <option value="">Todos os status</option>
+                    <div class="form-group">
+                        <label for="tarefa">Tarefa</label>
+                        <input type="text" id="tarefa" required placeholder="Descrição da tarefa">
+                    </div>
+                    <div class="form-group">
+                        <label for="responsaveis">Responsáveis</label>
+                        <input type="text" id="responsaveis" required placeholder="Nome1, Nome2, Nome3">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prazo">Prazo</label>
+                        <input type="date" id="prazo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" required>
+                            <option value="">Selecionar status</option>
                             <option value="Pendente">Pendente</option>
-                            <option value="Fazendo">Fazendo</option>
-                            <option value="Feito">Feito</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>📅 Fase</label>
-                        <select id="phaseFilter">
-                            <option value="">Todas as fases</option>
-                            <option value="PREP">Preparação</option>
-                            <option value="CONTRATO">Contrato</option>
-                            <option value="MUDANÇA">Mudança</option>
-                            <option value="INTEGRAÇÃO">Integração</option>
-                            <option value="FINALIZAÇÃO">Finalização</option>
-                            <option value="EMERGÊNCIA">Emergência</option>
+                            <option value="Em Andamento">Em Andamento</option>
+                            <option value="Concluída">Concluída</option>
+                            <option value="Atrasada">Atrasada</option>
                         </select>
                     </div>
                 </div>
-                
-                <div class="control-buttons">
-                    <button id="addTaskBtn" class="btn">➕ Nova Tarefa</button>
-                    <button id="refreshBtn" class="btn btn-secondary">🔄 Atualizar</button>
+                <div class="form-group">
+                    <label for="observacoes">Observações</label>
+                    <textarea id="observacoes" placeholder="Observações adicionais (opcional)"></textarea>
                 </div>
-            </div>
+                <button type="submit" class="btn">➕ Adicionar Tarefa</button>
+            </form>
+        </div>
 
-            <!-- Progress -->
-            <div class="progress-section">
-                <h4>📈 Progresso da Mudança</h4>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressBar" style="width: 0%"></div>
-                </div>
-                <p id="progressText">0% concluído (0 de 0 tarefas)</p>
+        <!-- Filtros -->
+        <div class="filters">
+            <div class="form-group">
+                <label for="filtroFase">Filtrar por Fase</label>
+                <select id="filtroFase">
+                    <option value="">Todas as fases</option>
+                    <option value="Planejamento">Planejamento</option>
+                    <option value="Preparação">Preparação</option>
+                    <option value="Execução">Execução</option>
+                    <option value="Finalização">Finalização</option>
+                </select>
             </div>
+            <div class="form-group">
+                <label for="filtroStatus">Filtrar por Status</label>
+                <select id="filtroStatus">
+                    <option value="">Todos os status</option>
+                    <option value="Pendente">Pendente</option>
+                    <option value="Em Andamento">Em Andamento</option>
+                    <option value="Concluída">Concluída</option>
+                    <option value="Atrasada">Atrasada</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="filtroResponsavel">Filtrar por Responsável</label>
+                <input type="text" id="filtroResponsavel" placeholder="Nome do responsável">
+            </div>
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button type="button" class="btn btn-secondary" onclick="limparFiltros()">🧹 Limpar Filtros</button>
+            </div>
+        </div>
 
-            <!-- Tasks -->
-            <div class="tasks-container">
-                <div id="tasksContainer">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <p>Carregando suas tarefas...</p>
-                    </div>
-                </div>
-            </div>
+        <!-- Tabela -->
+        <div class="table-container">
+            <table id="tasksTable">
+                <thead>
+                    <tr>
+                        <th>Fase</th>
+                        <th>Tarefa</th>
+                        <th>Responsáveis</th>
+                        <th>Prazo</th>
+                        <th>Status</th>
+                        <th>Observações</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tasksBody">
+                    <!-- Dados serão carregados via JavaScript -->
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <!-- Task Modal -->
-    <div id="taskModal" class="modal">
+    <!-- Modal de Edição -->
+    <div id="editModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle">Nova Tarefa</h3>
-                <button class="close" id="closeModal">&times;</button>
+                <h3>✏️ Editar Tarefa</h3>
+                <button class="close-modal" onclick="fecharModal()">&times;</button>
             </div>
-            <form id="taskForm">
-                <div class="form-group">
-                    <label>📝 Nome da Tarefa</label>
-                    <input type="text" id="taskName" required placeholder="Ex: Trocar odores entre gatos">
+            <form id="editForm">
+                <input type="hidden" id="editRowId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editFase">Fase</label>
+                        <select id="editFase" required>
+                            <option value="Planejamento">Planejamento</option>
+                            <option value="Preparação">Preparação</option>
+                            <option value="Execução">Execução</option>
+                            <option value="Finalização">Finalização</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTarefa">Tarefa</label>
+                        <input type="text" id="editTarefa" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editResponsaveis">Responsáveis</label>
+                        <input type="text" id="editResponsaveis" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPrazo">Prazo</label>
+                        <input type="date" id="editPrazo" required>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>📅 Fase</label>
-                    <select id="taskPhase" required>
-                        <option value="">Selecione a fase...</option>
-                        <option value="PREP">🔧 Preparação</option>
-                        <option value="CONTRATO">📋 Contrato</option>
-                        <option value="MUDANÇA">📦 Mudança</option>
-                        <option value="INTEGRAÇÃO">🐱 Integração</option>
-                        <option value="FINALIZAÇÃO">✅ Finalização</option>
-                        <option value="EMERGÊNCIA">🚨 Emergência</option>
+                    <label for="editStatus">Status</label>
+                    <select id="editStatus" required>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em Andamento">Em Andamento</option>
+                        <option value="Concluída">Concluída</option>
+                        <option value="Atrasada">Atrasada</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>👤 Responsável</label>
-                    <select id="taskResponsible" required>
-                        <option value="">Selecione...</option>
-                        <option value="Ana">Ana</option>
-                        <option value="Beatriz">Beatriz</option>
-                        <option value="Carla">Carla</option>
-                        <option value="Diana">Diana</option>
-                        <option value="Todas">Todas</option>
-                    </select>
+                    <label for="editObservacoes">Observações</label>
+                    <textarea id="editObservacoes"></textarea>
                 </div>
-                <div class="form-group">
-                    <label>📅 Prazo</label>
-                    <input type="date" id="taskDate">
-                </div>
-                <div class="form-group">
-                    <label>📊 Status</label>
-                    <select id="taskStatus" required>
-                        <option value="Pendente">⏳ Pendente</option>
-                        <option value="Fazendo">🔄 Fazendo</option>
-                        <option value="Feito">✅ Feito</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>📝 Observações</label>
-                    <textarea id="taskNotes" placeholder="Detalhes, links, observações importantes..."></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn">💾 Salvar Tarefa</button>
-                    <button type="button" class="btn btn-secondary" id="cancelBtn">❌ Cancelar</button>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+                    <button type="submit" class="btn">💾 Salvar Alterações</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // 🔍 Detectar se está no CodePen
+        if (window.location.href.includes('codepen.io')) {
+            document.getElementById('warningBox').style.display = 'block';
+        } else {
+            document.getElementById('warningBox').style.display = 'none';
+        }
+
+        // 📊 Dados locais
+        let tasks = JSON.parse(localStorage.getItem('mudancaTasks')) || [
+            {
+                id: 1,
+                fase: 'Planejamento',
+                tarefa: 'Definir data da mudança',
+                responsaveis: 'João, Maria',
+                prazo: '2024-09-15',
+                status: 'Concluída',
+                observacoes: 'Data definida para 30/09'
+            },
+            {
+                id: 2,
+                fase: 'Preparação',
+                tarefa: 'Contratar empresa de mudança',
+                responsaveis: 'João',
+                prazo: '2024-09-20',
+                status: 'Em Andamento',
+                observacoes: 'Orçamentos solicitados'
+            }
+        ];
+        
+        let nextId = Math.max(...tasks.map(t => t.id), 0) + 1;
+
+        // 💾 Salvar no LocalStorage
+        function salvarDados() {
+            localStorage.setItem('mudancaTasks', JSON.stringify(tasks));
+        }
+
+        // 🔌 Status da conexão
+        function updateStatus(type, message) {
+            const statusEl = document.getElementById('connectionStatus');
+            statusEl.className = `status-display status-${type}`;
+            statusEl.textContent = message;
+            console.log(`Status: ${type} - ${message}`);
+        }
+
+        // 🧪 Testar conexão
+        async function testarConexao() {
+            const url = document.getElementById('appsScriptUrl').value.trim();
+            
+            if (!url) {
+                updateStatus('error', '❌ Digite a URL do Apps Script primeiro!');
+                return false;
+            }
+
+            if (!url.includes('script.google.com')) {
+                updateStatus('error', '❌ URL inválida! Deve ser do Google Apps Script.');
+                return false;
+            }
+
+            try {
+                updateStatus('', '🧪 Testando conexão...');
+                
+                const response = await fetch(url);
+                
+                if (response.ok) {
+                    const text = await response.text();
+                    if (text.includes('funcionando')) {
+                        updateStatus('connected', '✅ Conexão OK!');
+                        localStorage.setItem('appsScriptUrl', url);
+                        return true;
+                    }
+                }
+                
+                updateStatus('error', '❌ Apps Script não responde - verifique deploy');
+                return false;
+
+            } catch (error) {
+                console.error('Erro no teste:', error);
+                if (error.message.includes('Failed to fetch')) {
+                    updateStatus('error', '❌ CORS Error - use arquivo local, não CodePen!');
+                } else {
+                    updateStatus('error', '❌ Erro: ' + error.message);
+                }
+                return false;
+            }
+        }
+
+        // 📡 Carregar dados do Sheets
+        async function carregarDados() {
+            const url = document.getElementById('appsScriptUrl').value.trim();
+            
+            if (!url) {
+                updateStatus('error', '⚠️ Configure a URL primeiro');
+                carregarTabela();
+                return;
+            }
+
+            try {
+                updateStatus('', '📡 Carregando dados...');
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'obterTarefas' })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('Dados recebidos:', result);
+
+                if (result.success) {
+                    tasks = result.data || [];
+                    updateStatus('connected', '✅ Dados sincronizados!');
+                    salvarDados();
+                } else {
+                    throw new Error(result.error || 'Erro do servidor');
+                }
+
+            } catch (error) {
+                console.error('Erro ao carregar:', error);
+                if (error.message.includes('Failed to fetch')) {
+                    updateStatus('error', '❌ CORS - use arquivo local!');
+                } else {
+                    updateStatus('error', '⚠️ Erro: ' + error.message);
+                }
+            }
+
+            carregarTabela();
+        }
+
+        // 📋 Carregar tabela
+        function carregarTabela(dadosFiltrados = null) {
+            const tbody = document.getElementById('tasksBody');
+            const dados = dadosFiltrados || tasks;
+            
+            tbody.innerHTML = '';
+            
+            if (dados.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            📭 Nenhuma tarefa encontrada. Adicione a primeira tarefa!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            dados.forEach(task => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${task.fase}</strong></td>
+                    <td>${task.tarefa}</td>
+                    <td>
+                        <div class="responsaveis">
+                            ${task.responsaveis.split(',').map(resp => 
+                                `<span class="responsavel-tag">${resp.trim()}</span>`
+                            ).join('')}
+                        </div>
+                    </td>
+                    <td>${formatarData(task.prazo)}</td>
+                    <td><span class="status-badge status-${task.status.toLowerCase().replace(' ', '-')}">${task.status}</span></td>
+                    <td>${task.observacoes || '-'}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn edit-btn" onclick="editarTarefa(${task.id})">Editar</button>
+                            <button class="action-btn delete-btn" onclick="excluirTarefa(${task.id})">Excluir</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 📅 Formatador de data
+        function formatarData(dataString) {
+            if (!dataString) return '-';
+            const data = new Date(dataString + 'T00:00:00');
+            return data.toLocaleDateString('pt-BR');
+        }
+
+        // 📤 Adicionar tarefa
+        async function adicionarTarefa(dados) {
+            const url = document.getElementById('appsScriptUrl').value.trim();
+            
+            // Sempre adicionar localmente primeiro
+            const novaTarefa = { id: nextId++, ...dados };
+            tasks.push(novaTarefa);
+            carregarTabela();
+            salvarDados();
+            
+            if (!url) {
+                updateStatus('offline', '💾 Salvo localmente - configure URL para sync');
+                return true;
+            }
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'adicionarTarefa', data: dados })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    updateStatus('connected', '✅ Salvo no Google Sheets!');
+                } else {
+                    throw new Error(result.error || 'Erro do servidor');
+                }
+
+                return true;
+
+            } catch (error) {
+                console.error('Erro ao salvar no Sheets:', error);
+                updateStatus('error', '💾 Salvo localmente - erro na sincronização');
+                return false;
+            }
+        }
+
+        // ✏️ Editar tarefa
+        function editarTarefa(id) {
+            const task = tasks.find(t => t.id == id);
+            if (!task) {
+                alert('Tarefa não encontrada!');
+                return;
+            }
+            
+            document.getElementById('editRowId').value = id;
+            document.getElementById('editFase').value = task.fase;
+            document.getElementById('editTarefa').value = task.tarefa;
+            document.getElementById('editResponsaveis').value = task.responsaveis;
+            document.getElementById('editPrazo').value = task.prazo;
+            document.getElementById('editStatus').value = task.status;
+            document.getElementById('editObservacoes').value = task.observacoes || '';
+            
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        // 💾 Salvar edição
+        function salvarEdicao(id, dados) {
+            const taskIndex = tasks.findIndex(t => t.id == id);
+            if (taskIndex !== -1) {
+                tasks[taskIndex] = { id: parseInt(id), ...dados };
+                carregarTabela();
+                salvarDados();
+            }
+            return true;
+        }
+
+        // 🗑️ Excluir tarefa
+        function excluirTarefa(id) {
+            if (!confirm('Tem certeza que deseja excluir esta tarefa?')) {
+                return;
+            }
+
+            tasks = tasks.filter(t => t.id != id);
+            carregarTabela();
+            salvarDados();
+        }
+
+        // 🔍 Filtros
+        function aplicarFiltros() {
+            const filtroFase = document.getElementById('filtroFase').value;
+            const filtroStatus = document.getElementById('filtroStatus').value;
+            const filtroResponsavel = document.getElementById('filtroResponsavel').value.toLowerCase();
+            
+            let dadosFiltrados = tasks;
+            
+            if (filtroFase) {
+                dadosFiltrados = dadosFiltrados.filter(task => task.fase === filtroFase);
+            }
+            
+            if (filtroStatus) {
+                dadosFiltrados = dadosFiltrados.filter(task => task.status === filtroStatus);
+            }
+            
+            if (filtroResponsavel) {
+                dadosFiltrados = dadosFiltrados.filter(task => 
+                    task.responsaveis.toLowerCase().includes(filtroResponsavel)
+                );
+            }
+            
+            carregarTabela(dadosFiltrados);
+        }
+
+        // 🧹 Limpar filtros
+        function limparFiltros() {
+            document.getElementById('filtroFase').value = '';
+            document.getElementById('filtroStatus').value = '';
+            document.getElementById('filtroResponsavel').value = '';
+            carregarTabela();
+        }
+
+        // ❌ Fechar modal
+        function fecharModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        // 🎯 Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Carregar URL salva
+            const savedUrl = localStorage.getItem('appsScriptUrl');
+            if (savedUrl) {
+                document.getElementById('appsScriptUrl').value = savedUrl;
+            }
+
+            // Formulário principal
+            document.getElementById('taskForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const dados = {
+                    fase: document.getElementById('fase').value,
+                    tarefa: document.getElementById('tarefa').value,
+                    responsaveis: document.getElementById('responsaveis').value,
+                    prazo: document.getElementById('prazo').value,
+                    status: document.getElementById('status').value,
+                    observacoes: document.getElementById('observacoes').value
+                };
+                
+                await adicionarTarefa(dados);
+                this.reset();
+            });
+            
+            // Formulário de edição
+            document.getElementById('editForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const id = document.getElementById('editRowId').value;
+                const dados = {
+                    fase: document.getElementById('editFase').value,
+                    tarefa: document.getElementById('editTarefa').value,
+                    responsaveis: document.getElementById('editResponsaveis').value,
+                    prazo: document.getElementById('editPrazo').value,
+                    status: document.getElementById('editStatus').value,
+                    observacoes: document.getElementById('editObservacoes').value
+                };
+                
+                salvarEdicao(id, dados);
+                fecharModal();
+            });
+            
+            // Filtros
+            document.getElementById('filtroFase').addEventListener('change', aplicarFiltros);
+            document.getElementById('filtroStatus').addEventListener('change', aplicarFiltros);
+            document.getElementById('filtroResponsavel').addEventListener('input', aplicarFiltros);
+            
+            // Fechar modal clicando fora
+            window.addEventListener('click', function(e) {
+                const modal = document.getElementById('editModal');
+                if (e.target === modal) {
+                    fecharModal();
+                }
+            });
+            
+            // Inicializar
+            carregarTabela();
+        });
+    </script>
 </body>
 </html>
