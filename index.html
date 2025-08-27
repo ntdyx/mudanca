@@ -617,6 +617,7 @@
                     if (text.includes('funcionando')) {
                         updateStatus('connected', '✅ Conexão OK!');
                         localStorage.setItem('appsScriptUrl', url);
+                        console.log('✅ URL salva após teste bem-sucedido');
                         return true;
                     }
                 }
@@ -635,7 +636,7 @@
             }
         }
 
-        // 📡 Carregar dados do Sheets
+        // 📡 Carregar dados - FORÇAR JSONP
         async function carregarDados() {
             const url = document.getElementById('appsScriptUrl').value.trim();
             
@@ -645,40 +646,65 @@
                 return;
             }
 
-            try {
-                updateStatus('', '📡 Carregando dados...');
+            updateStatus('', '📡 Carregando dados via JSONP...');
+            console.log('🔄 Usando JSONP para contornar CORS');
+            
+            return new Promise((resolve, reject) => {
+                // Callback único
+                const callbackName = 'loadData' + Date.now();
+                const script = document.createElement('script');
+                
+                // Timeout
+                const timeout = setTimeout(() => {
+                    if (script.parentNode) {
+                        document.head.removeChild(script);
+                    }
+                    delete window[callbackName];
+                    updateStatus('error', '⏰ Timeout - verifique Apps Script');
+                    carregarTabela();
+                    reject(new Error('Timeout'));
+                }, 15000);
 
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'obterTarefas' })
-                });
+                // Callback global
+                window[callbackName] = function(data) {
+                    clearTimeout(timeout);
+                    if (script.parentNode) {
+                        document.head.removeChild(script);
+                    }
+                    delete window[callbackName];
+                    
+                    console.log('📥 Dados recebidos via JSONP:', data);
+                    
+                    if (data && data.success) {
+                        tasks = data.data || [];
+                        updateStatus('connected', `✅ ${tasks.length} tarefas carregadas (JSONP)!`);
+                        salvarDados();
+                    } else {
+                        updateStatus('error', '❌ Erro: ' + (data?.error || 'Resposta inválida'));
+                        console.error('Erro na resposta:', data);
+                    }
+                    
+                    carregarTabela();
+                    resolve();
+                };
 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-
-                const result = await response.json();
-                console.log('Dados recebidos:', result);
-
-                if (result.success) {
-                    tasks = result.data || [];
-                    updateStatus('connected', '✅ Dados sincronizados!');
-                    salvarDados();
-                } else {
-                    throw new Error(result.error || 'Erro do servidor');
-                }
-
-            } catch (error) {
-                console.error('Erro ao carregar:', error);
-                if (error.message.includes('Failed to fetch')) {
-                    updateStatus('error', '❌ CORS - use arquivo local!');
-                } else {
-                    updateStatus('error', '⚠️ Erro: ' + error.message);
-                }
-            }
-
-            carregarTabela();
+                // Criar URL JSONP
+                const jsonpUrl = `${url}?callback=${callbackName}&action=obterTarefas`;
+                script.src = jsonpUrl;
+                
+                console.log('🌐 Chamando JSONP:', jsonpUrl);
+                
+                // Tratar erros de script
+                script.onerror = function() {
+                    clearTimeout(timeout);
+                    delete window[callbackName];
+                    updateStatus('error', '❌ Erro ao carregar script');
+                    carregarTabela();
+                    reject(new Error('Script error'));
+                };
+                
+                document.head.appendChild(script);
+            });
         }
 
         // 📋 Carregar tabela
@@ -732,7 +758,7 @@
             return data.toLocaleDateString('pt-BR');
         }
 
-        // 📤 Adicionar tarefa
+        // 📤 Adicionar tarefa - JSONP também
         async function adicionarTarefa(dados) {
             const url = document.getElementById('appsScriptUrl').value.trim();
             
@@ -748,6 +774,7 @@
             }
 
             try {
+                // Tentar POST primeiro
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -758,15 +785,20 @@
                 
                 if (result.success) {
                     updateStatus('connected', '✅ Salvo no Google Sheets!');
+                    return true;
                 } else {
                     throw new Error(result.error || 'Erro do servidor');
                 }
 
-                return true;
-
             } catch (error) {
-                console.error('Erro ao salvar no Sheets:', error);
-                updateStatus('error', '💾 Salvo localmente - erro na sincronização');
+                console.error('POST falhou, mas salvo localmente:', error);
+                updateStatus('error', '💾 Salvo localmente - CORS impediu sync');
+                
+                // Tentar recarregar via JSONP para sincronizar
+                setTimeout(() => {
+                    carregarDados();
+                }, 1000);
+                
                 return false;
             }
         }
