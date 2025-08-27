@@ -445,7 +445,6 @@ Você deve ver um JSON com "success": true
 
 Navegador: ${navigator.userAgent}`;
 
-    debugInfo.textContent = debugText;
     debugPanel.style.display = 'block';
     
     console.log('🔧 Debug panel mostrado');
