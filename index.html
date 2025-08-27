@@ -5,6 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organizador de Mudança</title>
     <style>
+        :root {
+            /* Cores Light Mode */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-accent: #f1f3f4;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --border-primary: #e1e5e9;
+            --border-accent: #d1d5db;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+        }
+
+        [data-theme="dark"] {
+            /* Cores Dark Mode */
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --bg-accent: #262626;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --text-muted: #737373;
+            --border-primary: #404040;
+            --border-accent: #525252;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,93 +46,142 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #ffffff;
-            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.6;
+            transition: all 0.3s ease;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 24px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-primary);
         }
 
         h1 {
-            text-align: center;
-            margin-bottom: 30px;
             font-size: 2.5rem;
-            font-weight: 300;
-            color: #000;
+            font-weight: 200;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
 
+        .theme-toggle {
+            padding: 12px;
+            background: var(--bg-accent);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-primary);
+            font-size: 18px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--border-primary);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px var(--shadow);
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Configuração */
         .config-section {
-            background: #e8f4fd;
-            border: 2px solid #007bff;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .config-section h2 {
-            color: #007bff;
-            margin-bottom: 15px;
-            text-align: center;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-accent));
+            border: 1px solid var(--border-accent);
         }
 
         .url-input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #007bff;
-            margin: 10px 0;
+            padding: 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            color: var(--text-primary);
             font-size: 14px;
+            transition: all 0.2s ease;
+            margin: 12px 0;
+        }
+
+        .url-input:focus {
             outline: none;
+            border-color: var(--info);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .config-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             justify-content: center;
-            margin-top: 15px;
+            margin-top: 16px;
+            flex-wrap: wrap;
         }
 
+        /* Status */
         .status-display {
-            padding: 15px;
-            margin: 15px 0;
-            border: 2px solid #000;
-            font-weight: bold;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 500;
             text-align: center;
+            margin: 16px 0;
+            transition: all 0.3s ease;
         }
 
         .status-connected {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
         }
 
         .status-error {
-            background: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
         }
 
         .status-offline {
-            background: #f8f9fa;
-            border-color: #6c757d;
-            color: #495057;
+            background: rgba(115, 115, 115, 0.1);
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
         }
 
-        .form-section {
-            background: #f8f9fa;
-            border: 2px solid #000;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
+        /* Formulários */
         .form-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
         }
 
         .form-group {
@@ -107,44 +190,50 @@
         }
 
         label {
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #000;
-            font-size: 0.9rem;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         input, select, textarea {
-            padding: 12px;
-            border: 2px solid #000;
-            background: #fff;
+            padding: 14px 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            color: var(--text-primary);
             font-size: 14px;
-            outline: none;
+            transition: all 0.2s ease;
         }
 
         input:focus, select:focus, textarea:focus {
-            border-color: #333;
-            box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+            outline: none;
+            border-color: var(--info);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 100px;
+            font-family: inherit;
         }
 
+        /* Botões */
         .btn {
-            padding: 12px 24px;
-            border: 2px solid #000;
-            background: #000;
-            color: #fff;
-            cursor: pointer;
-            font-weight: 600;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-weight: 500;
             font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .btn:hover:not(:disabled) {
-            background: #fff;
-            color: #000;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
         }
 
         .btn:disabled {
@@ -152,146 +241,177 @@
             cursor: not-allowed;
         }
 
-        .btn-test {
-            background: #007bff;
-            border-color: #007bff;
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--bg-primary);
         }
 
-        .btn-test:hover {
-            background: #0056b3;
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px var(--shadow);
         }
 
         .btn-secondary {
-            background: #fff;
-            color: #000;
+            background: var(--bg-accent);
+            color: var(--text-primary);
+            border: 1px solid var(--border-primary);
         }
 
-        .btn-secondary:hover {
-            background: #000;
-            color: #fff;
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--border-primary);
         }
 
+        .btn-test {
+            background: var(--info);
+            color: white;
+        }
+
+        .btn-test:hover:not(:disabled) {
+            background: #2563eb;
+        }
+
+        /* Filtros */
         .filters {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+            background: var(--bg-accent);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
             padding: 20px;
-            background: #f8f9fa;
-            border: 1px solid #ddd;
+            margin-bottom: 24px;
         }
 
+        .filters .form-row {
+            margin-bottom: 0;
+        }
+
+        /* Tabela */
         .table-container {
-            overflow-x: auto;
-            border: 2px solid #000;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px var(--shadow);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: #fff;
         }
 
         th {
-            background: #000;
-            color: #fff;
-            padding: 15px 12px;
+            background: var(--bg-accent);
+            color: var(--text-primary);
+            padding: 16px;
             text-align: left;
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border-primary);
         }
 
         td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-primary);
             vertical-align: top;
+            background: var(--bg-primary);
         }
 
-        tr:hover {
-            background-color: #f8f9fa;
+        tr:hover td {
+            background: var(--bg-accent);
         }
 
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Tags e Badges */
         .status-badge {
-            padding: 4px 12px;
-            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: 1px solid;
+            letter-spacing: 0.05em;
+            display: inline-block;
         }
 
         .status-pendente {
-            background: #fff;
-            color: #6c757d;
-            border-color: #6c757d;
+            background: rgba(115, 115, 115, 0.1);
+            color: var(--text-muted);
+            border: 1px solid var(--text-muted);
         }
 
         .status-em-andamento {
-            background: #fff;
-            color: #007bff;
-            border-color: #007bff;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+            border: 1px solid var(--info);
         }
 
         .status-concluída {
-            background: #000;
-            color: #fff;
-            border-color: #000;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
         }
 
         .status-atrasada {
-            background: #fff;
-            color: #dc3545;
-            border-color: #dc3545;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border: 1px solid var(--error);
         }
 
         .responsaveis {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 6px;
         }
 
         .responsavel-tag {
-            background: #f8f9fa;
-            border: 1px solid #000;
-            padding: 2px 8px;
+            background: var(--bg-accent);
+            color: var(--text-primary);
+            border: 1px solid var(--border-primary);
+            padding: 4px 10px;
+            border-radius: 12px;
             font-size: 11px;
             font-weight: 500;
         }
 
+        /* Ações */
         .actions {
             display: flex;
             gap: 8px;
         }
 
         .action-btn {
-            padding: 6px 12px;
+            padding: 8px 12px;
             font-size: 12px;
-            border: 1px solid;
-            background: #fff;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
         }
 
         .edit-btn {
-            color: #007bff;
-            border-color: #007bff;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
         }
 
         .edit-btn:hover {
-            background: #007bff;
-            color: #fff;
+            background: var(--info);
+            color: white;
         }
 
         .delete-btn {
-            color: #dc3545;
-            border-color: #dc3545;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
         }
 
         .delete-btn:hover {
-            background: #dc3545;
-            color: #fff;
+            background: var(--error);
+            color: white;
         }
 
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -299,8 +419,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 1000;
+            backdrop-filter: blur(4px);
         }
 
         .modal-content {
@@ -308,22 +429,30 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: #fff;
-            border: 2px solid #000;
-            padding: 30px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 16px;
+            padding: 32px;
             max-width: 600px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 20px 40px var(--shadow);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #000;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .modal-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         .close-modal {
@@ -331,44 +460,110 @@
             border: none;
             font-size: 24px;
             cursor: pointer;
-            padding: 5px;
+            color: var(--text-secondary);
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
         }
 
+        .close-modal:hover {
+            background: var(--bg-accent);
+            color: var(--text-primary);
+        }
+
+        /* Estados vazios */
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
-            color: #666;
+            padding: 60px 20px;
+            color: var(--text-muted);
             font-style: italic;
         }
 
+        /* Warning box */
         .warning-box {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            padding: 15px;
-            margin-bottom: 20px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning);
+            color: var(--warning);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
             text-align: center;
-            font-weight: bold;
+            font-weight: 500;
         }
 
+        /* Animações */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: slideIn 0.3s ease;
+        }
+
+        /* Responsivo */
         @media (max-width: 768px) {
             .container {
-                padding: 15px;
+                padding: 16px;
             }
             
             h1 {
                 font-size: 2rem;
             }
             
-            .form-row, .filters, .config-buttons {
-                grid-template-columns: 1fr;
+            .header {
                 flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            
+            .form-row, .filters .form-row, .config-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .modal-content {
+                padding: 24px;
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            table {
+                min-width: 800px;
+            }
+        }
+
+        /* Melhorias de acessibilidade */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📦 Organizador de Mudança</h1>
+        <div class="header">
+            <h1>📦 Organizador de Mudança</h1>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
+                <span id="themeIcon">🌙</span>
+            </button>
+        </div>
         
         <!-- Warning sobre CodePen -->
         <div class="warning-box" id="warningBox">
@@ -376,15 +571,21 @@
         </div>
 
         <!-- Configuração -->
-        <div class="config-section">
-            <h2>🔗 Conectar com Google Sheets</h2>
+        <div class="card config-section">
+            <div class="card-title">
+                🔗 Conectar com Google Sheets
+            </div>
             <input type="url" id="appsScriptUrl" class="url-input" 
                    placeholder="Cole aqui a URL do seu Apps Script"
                    value="">
             
             <div class="config-buttons">
-                <button class="btn btn-test" onclick="testarConexao()">🧪 Testar Conexão</button>
-                <button class="btn btn-secondary" onclick="carregarDados()">🔄 Carregar Dados</button>
+                <button class="btn btn-test" onclick="testarConexao()">
+                    🧪 Testar Conexão
+                </button>
+                <button class="btn btn-secondary" onclick="carregarDados()">
+                    🔄 Carregar Dados
+                </button>
             </div>
             
             <div id="connectionStatus" class="status-display status-offline">
@@ -393,8 +594,10 @@
         </div>
 
         <!-- Formulário -->
-        <div class="form-section">
-            <h2 style="margin-bottom: 20px; color: #000;">Adicionar Nova Tarefa</h2>
+        <div class="card form-section">
+            <div class="card-title">
+                ➕ Adicionar Nova Tarefa
+            </div>
             <form id="taskForm">
                 <div class="form-row">
                     <div class="form-group">
@@ -436,7 +639,9 @@
                     <label for="observacoes">Observações</label>
                     <textarea id="observacoes" placeholder="Observações adicionais (opcional)"></textarea>
                 </div>
-                <button type="submit" class="btn">➕ Adicionar Tarefa</button>
+                <button type="submit" class="btn btn-primary">
+                    ➕ Adicionar Tarefa
+                </button>
             </form>
         </div>
 
@@ -468,7 +673,9 @@
             </div>
             <div class="form-group">
                 <label>&nbsp;</label>
-                <button type="button" class="btn btn-secondary" onclick="limparFiltros()">🧹 Limpar Filtros</button>
+                <button type="button" class="btn btn-secondary" onclick="limparFiltros()">
+                    🧹 Limpar Filtros
+                </button>
             </div>
         </div>
 
@@ -549,11 +756,35 @@
     </div>
 
     <script>
-        // 🔍 Detectar se está no CodePen
-        if (window.location.href.includes('codepen.io')) {
-            document.getElementById('warningBox').style.display = 'block';
-        } else {
-            document.getElementById('warningBox').style.display = 'none';
+        // 🌙 Toggle Theme
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            console.log('🎨 Tema alterado para:', newTheme);
+        }
+
+        // 🎨 Inicializar tema
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            
+            // Detectar preferência do sistema se não há tema salvo
+            if (!localStorage.getItem('theme')) {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    toggleTheme();
+                }
+            }
         }
 
         // 📊 Dados locais
@@ -751,19 +982,47 @@
             });
         }
 
-        // 📅 Formatador de data
+        // 📅 Formatador de data - CORRIGIDO
         function formatarData(dataString) {
             if (!dataString) return '-';
+            
+            // Se já está no formato brasileiro DD/MM/YYYY, retorna assim
+            if (dataString.includes('/')) {
+                return dataString;
+            }
+            
+            // Se está no formato ISO YYYY-MM-DD, converte para brasileiro
             const data = new Date(dataString + 'T00:00:00');
+            
+            // Verificar se é uma data válida
+            if (isNaN(data.getTime())) {
+                return dataString; // Retorna como está se não conseguir converter
+            }
+            
             return data.toLocaleDateString('pt-BR');
         }
 
-        // 📤 Adicionar tarefa - JSONP PURO
+        // 📤 Adicionar tarefa - JSONP PURO com data corrigida
         async function adicionarTarefa(dados) {
             const url = document.getElementById('appsScriptUrl').value.trim();
             
+            // Converter data para formato brasileiro antes de salvar
+            let dataFormatada = dados.prazo;
+            if (dados.prazo && dados.prazo.includes('-')) {
+                // Está no formato YYYY-MM-DD, converter para DD/MM/YYYY
+                const [ano, mes, dia] = dados.prazo.split('-');
+                dataFormatada = `${dia}/${mes}/${ano}`;
+            }
+            
+            const dadosFormatados = {
+                ...dados,
+                prazo: dataFormatada
+            };
+            
+            console.log('📅 Data convertida:', dados.prazo, '→', dataFormatada);
+            
             // Sempre adicionar localmente primeiro
-            const novaTarefa = { id: nextId++, ...dados };
+            const novaTarefa = { id: nextId++, ...dadosFormatados };
             tasks.push(novaTarefa);
             carregarTabela();
             salvarDados();
@@ -773,7 +1032,7 @@
                 return true;
             }
 
-            console.log('📤 Adicionando via JSONP:', dados);
+            console.log('📤 Adicionando via JSONP:', dadosFormatados);
             
             return new Promise((resolve, reject) => {
                 // Callback único
@@ -816,12 +1075,12 @@
                 const params = new URLSearchParams({
                     callback: callbackName,
                     action: 'adicionarTarefa',
-                    fase: dados.fase,
-                    tarefa: dados.tarefa,
-                    responsaveis: dados.responsaveis,
-                    prazo: dados.prazo,
-                    status: dados.status,
-                    observacoes: dados.observacoes || ''
+                    fase: dadosFormatados.fase,
+                    tarefa: dadosFormatados.tarefa,
+                    responsaveis: dadosFormatados.responsaveis,
+                    prazo: dadosFormatados.prazo,
+                    status: dadosFormatados.status,
+                    observacoes: dadosFormatados.observacoes || ''
                 });
                 
                 const jsonpUrl = `${url}?${params.toString()}`;
@@ -859,11 +1118,23 @@
             document.getElementById('editModal').style.display = 'block';
         }
 
-        // 💾 Salvar edição
+        // 💾 Salvar edição - com data corrigida
         function salvarEdicao(id, dados) {
+            // Converter data se necessário
+            let dataFormatada = dados.prazo;
+            if (dados.prazo && dados.prazo.includes('-')) {
+                const [ano, mes, dia] = dados.prazo.split('-');
+                dataFormatada = `${dia}/${mes}/${ano}`;
+            }
+            
+            const dadosFormatados = {
+                ...dados,
+                prazo: dataFormatada
+            };
+            
             const taskIndex = tasks.findIndex(t => t.id == id);
             if (taskIndex !== -1) {
-                tasks[taskIndex] = { id: parseInt(id), ...dados };
+                tasks[taskIndex] = { id: parseInt(id), ...dadosFormatados };
                 carregarTabela();
                 salvarDados();
             }
@@ -921,6 +1192,16 @@
 
         // 🎯 Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
+            
+            // 🎨 Inicializar tema
+            initTheme();
+            
+            // 🔍 Detectar se está no CodePen
+            if (window.location.href.includes('codepen.io')) {
+                document.getElementById('warningBox').style.display = 'block';
+            } else {
+                document.getElementById('warningBox').style.display = 'none';
+            }
             
             // Carregar URL salva
             const savedUrl = localStorage.getItem('appsScriptUrl');
