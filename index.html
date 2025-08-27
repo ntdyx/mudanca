@@ -565,32 +565,9 @@
             </button>
         </div>
         
-        <!-- Warning sobre CodePen -->
-        <div class="warning-box" id="warningBox">
-            ⚠️ <strong>IMPORTANTE:</strong> Se estiver no CodePen, baixe este arquivo e abra localmente para conectar com Apps Script!
-        </div>
-
-        <!-- Configuração -->
-        <div class="card config-section">
-            <div class="card-title">
-                🔗 Conectar com Google Sheets
-            </div>
-            <input type="url" id="appsScriptUrl" class="url-input" 
-                   placeholder="Cole aqui a URL do seu Apps Script"
-                   value="">
-            
-            <div class="config-buttons">
-                <button class="btn btn-test" onclick="testarConexao()">
-                    🧪 Testar Conexão
-                </button>
-                <button class="btn btn-secondary" onclick="carregarDados()">
-                    🔄 Carregar Dados
-                </button>
-            </div>
-            
-            <div id="connectionStatus" class="status-display status-offline">
-                🔌 Cole a URL do Apps Script e clique "Testar Conexão"
-            </div>
+        <!-- Warning sobre CodePen - só se necessário -->
+        <div class="warning-box" id="warningBox" style="display: none;">
+            ⚠️ <strong>IMPORTANTE:</strong> Se estiver no CodePen, baixe este arquivo e abra localmente!
         </div>
 
         <!-- Formulário -->
@@ -756,6 +733,9 @@
     </div>
 
     <script>
+        // 🔗 URL DO APPS SCRIPT - HARDCODED
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw470Btw73qudZg59IONrTsyGQo8XvBDq6eZMBVxFzTUuMr4g2ndLxrfE4Y2WhTyem7/exec';
+
         // 🌙 Toggle Theme
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -816,11 +796,9 @@
             localStorage.setItem('mudancaTasks', JSON.stringify(tasks));
         }
 
-        // 🔌 Status da conexão
+        // 🔌 Status da conexão - SIMPLIFICADO
         function updateStatus(type, message) {
-            const statusEl = document.getElementById('connectionStatus');
-            statusEl.className = `status-display status-${type}`;
-            statusEl.textContent = message;
+            // Status só no console agora
             console.log(`Status: ${type} - ${message}`);
         }
 
@@ -867,18 +845,11 @@
             }
         }
 
-        // 📡 Carregar dados - FORÇAR JSONP
-        async function carregarDados() {
-            const url = document.getElementById('appsScriptUrl').value.trim();
-            
-            if (!url) {
-                updateStatus('error', '⚠️ Configure a URL primeiro');
-                carregarTabela();
-                return;
+        // 📡 Carregar dados - AUTO COM URL FIXA
+        async function carregarDados(automatico = false) {
+            if (!automatico) {
+                console.log('🔄 Carregando dados do Google Sheets...');
             }
-
-            updateStatus('', '📡 Carregando dados via JSONP...');
-            console.log('🔄 Usando JSONP para contornar CORS');
             
             return new Promise((resolve, reject) => {
                 // Callback único
@@ -891,10 +862,12 @@
                         document.head.removeChild(script);
                     }
                     delete window[callbackName];
-                    updateStatus('error', '⏰ Timeout - verifique Apps Script');
+                    if (!automatico) {
+                        console.warn('⏰ Timeout ao carregar dados');
+                    }
                     carregarTabela();
                     reject(new Error('Timeout'));
-                }, 15000);
+                }, automatico ? 5000 : 15000);
 
                 // Callback global
                 window[callbackName] = function(data) {
@@ -904,15 +877,22 @@
                     }
                     delete window[callbackName];
                     
-                    console.log('📥 Dados recebidos via JSONP:', data);
-                    
                     if (data && data.success) {
                         tasks = data.data || [];
-                        updateStatus('connected', `✅ ${tasks.length} tarefas carregadas (JSONP)!`);
+                        
+                        // Corrigir todas as datas que vêm do Sheets
+                        tasks.forEach(task => {
+                            if (task.prazo) {
+                                task.prazo = formatarDataSemLog(task.prazo);
+                            }
+                        });
+                        
+                        console.log(`✅ ${tasks.length} tarefas ${automatico ? 'sincronizadas' : 'carregadas'} do Google Sheets`);
                         salvarDados();
                     } else {
-                        updateStatus('error', '❌ Erro: ' + (data?.error || 'Resposta inválida'));
-                        console.error('Erro na resposta:', data);
+                        if (!automatico) {
+                            console.error('❌ Erro ao carregar:', data?.error || 'Resposta inválida');
+                        }
                     }
                     
                     carregarTabela();
@@ -920,22 +900,54 @@
                 };
 
                 // Criar URL JSONP
-                const jsonpUrl = `${url}?callback=${callbackName}&action=obterTarefas`;
+                const jsonpUrl = `${APPS_SCRIPT_URL}?callback=${callbackName}&action=obterTarefas`;
                 script.src = jsonpUrl;
-                
-                console.log('🌐 Chamando JSONP:', jsonpUrl);
                 
                 // Tratar erros de script
                 script.onerror = function() {
                     clearTimeout(timeout);
                     delete window[callbackName];
-                    updateStatus('error', '❌ Erro ao carregar script');
+                    if (!automatico) {
+                        console.error('❌ Erro ao executar script');
+                    }
                     carregarTabela();
                     reject(new Error('Script error'));
                 };
                 
                 document.head.appendChild(script);
             });
+        }
+
+        // Função auxiliar para não fazer log excessivo
+        function formatarDataSemLog(dataString) {
+            if (!dataString) return '-';
+            
+            if (typeof dataString === 'string' && dataString.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/)) {
+                return dataString;
+            }
+            
+            let data;
+            
+            if (dataString instanceof Date) {
+                data = dataString;
+            } else if (typeof dataString === 'string' && dataString.includes('T')) {
+                data = new Date(dataString);
+            } else if (typeof dataString === 'string' && dataString.match(/^\d{4}-\d{1,2}-\d{1,2}$/)) {
+                const [ano, mes, dia] = dataString.split('-');
+                data = new Date(ano, mes - 1, dia);
+            } else {
+                data = new Date(dataString);
+            }
+            
+            if (isNaN(data.getTime())) {
+                return dataString;
+            }
+            
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            
+            return `${dia}/${mes}/${ano}`;
         }
 
         // 📋 Carregar tabela
@@ -982,30 +994,56 @@
             });
         }
 
-        // 📅 Formatador de data - CORRIGIDO
+        // 📅 Formatador de data - SUPER CORRIGIDO
         function formatarData(dataString) {
             if (!dataString) return '-';
             
-            // Se já está no formato brasileiro DD/MM/YYYY, retorna assim
-            if (dataString.includes('/')) {
+            console.log('🔍 Formatando data:', dataString);
+            
+            // Se já está no formato brasileiro DD/MM/YYYY
+            if (typeof dataString === 'string' && dataString.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/)) {
                 return dataString;
             }
             
-            // Se está no formato ISO YYYY-MM-DD, converte para brasileiro
-            const data = new Date(dataString + 'T00:00:00');
+            let data;
+            
+            // Se é um objeto Date
+            if (dataString instanceof Date) {
+                data = dataString;
+            }
+            // Se contém 'T' (formato ISO completo)
+            else if (typeof dataString === 'string' && dataString.includes('T')) {
+                data = new Date(dataString);
+            }
+            // Se está no formato YYYY-MM-DD
+            else if (typeof dataString === 'string' && dataString.match(/^\d{4}-\d{1,2}-\d{1,2}$/)) {
+                const [ano, mes, dia] = dataString.split('-');
+                data = new Date(ano, mes - 1, dia); // mes-1 porque Date usa 0-11
+            }
+            // Outros formatos
+            else {
+                data = new Date(dataString);
+            }
             
             // Verificar se é uma data válida
             if (isNaN(data.getTime())) {
-                return dataString; // Retorna como está se não conseguir converter
+                console.warn('⚠️ Data inválida:', dataString);
+                return dataString;
             }
             
-            return data.toLocaleDateString('pt-BR');
+            // Formatação manual para evitar fuso horário
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            
+            const dataFormatada = `${dia}/${mes}/${ano}`;
+            console.log('✅ Data formatada:', dataString, '→', dataFormatada);
+            
+            return dataFormatada;
         }
 
         // 📤 Adicionar tarefa - JSONP PURO com data corrigida
         async function adicionarTarefa(dados) {
-            const url = document.getElementById('appsScriptUrl').value.trim();
-            
             // Converter data para formato brasileiro antes de salvar
             let dataFormatada = dados.prazo;
             if (dados.prazo && dados.prazo.includes('-')) {
@@ -1026,13 +1064,8 @@
             tasks.push(novaTarefa);
             carregarTabela();
             salvarDados();
-            
-            if (!url) {
-                updateStatus('offline', '💾 Salvo localmente - configure URL para sync');
-                return true;
-            }
 
-            console.log('📤 Adicionando via JSONP:', dadosFormatados);
+            console.log('📤 Salvando no Google Sheets...');
             
             return new Promise((resolve, reject) => {
                 // Callback único
@@ -1045,7 +1078,7 @@
                         document.head.removeChild(script);
                     }
                     delete window[callbackName];
-                    updateStatus('error', '⏰ Timeout ao adicionar');
+                    console.warn('⏰ Timeout ao adicionar - mantido localmente');
                     reject(new Error('Timeout'));
                 }, 10000);
 
@@ -1057,15 +1090,12 @@
                     }
                     delete window[callbackName];
                     
-                    console.log('📥 Resposta ao adicionar:', data);
-                    
                     if (data && data.success) {
-                        updateStatus('connected', '✅ Salvo no Google Sheets!');
+                        console.log('✅ Tarefa salva no Google Sheets!');
                         // Recarregar dados para sincronizar
-                        setTimeout(() => carregarDados(), 500);
+                        setTimeout(() => carregarDados(true), 500);
                     } else {
-                        updateStatus('error', '❌ Erro: ' + (data?.error || 'Falha ao salvar'));
-                        console.error('Erro na resposta:', data);
+                        console.error('❌ Erro ao salvar:', data?.error || 'Falha desconhecida');
                     }
                     
                     resolve(data && data.success);
@@ -1083,15 +1113,13 @@
                     observacoes: dadosFormatados.observacoes || ''
                 });
                 
-                const jsonpUrl = `${url}?${params.toString()}`;
+                const jsonpUrl = `${APPS_SCRIPT_URL}?${params.toString()}`;
                 script.src = jsonpUrl;
-                
-                console.log('🌐 Chamando ADD via JSONP:', jsonpUrl);
                 
                 script.onerror = function() {
                     clearTimeout(timeout);
                     delete window[callbackName];
-                    updateStatus('error', '❌ Erro ao executar script');
+                    console.error('❌ Erro ao executar script - mantido localmente');
                     reject(new Error('Script error'));
                 };
                 
@@ -1199,15 +1227,13 @@
             // 🔍 Detectar se está no CodePen
             if (window.location.href.includes('codepen.io')) {
                 document.getElementById('warningBox').style.display = 'block';
-            } else {
-                document.getElementById('warningBox').style.display = 'none';
             }
             
-            // Carregar URL salva
-            const savedUrl = localStorage.getItem('appsScriptUrl');
-            if (savedUrl) {
-                document.getElementById('appsScriptUrl').value = savedUrl;
-            }
+            // 🚀 CARREGAR AUTOMATICAMENTE
+            console.log('🚀 Carregando dados automaticamente...');
+            setTimeout(() => {
+                carregarDados(true); // true = carregamento automático
+            }, 1000);
 
             // Formulário principal
             document.getElementById('taskForm').addEventListener('submit', async function(e) {
@@ -1257,8 +1283,15 @@
                 }
             });
             
-            // Inicializar
+            // Inicializar - carregar dados locais primeiro
             carregarTabela();
+            
+            // 🔄 Auto-sincronizar a cada 30 segundos
+            setInterval(() => {
+                carregarDados(true); // Sincronização silenciosa
+            }, 30000);
+            
+            console.log('📱 Sistema inicializado');
         });
     </script>
 </body>
