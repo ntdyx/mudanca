@@ -37,14 +37,6 @@
             --border-primary: #333333;
             --border-accent: #444444;
             --shadow: rgba(255, 255, 255, 0.1);
-            
-            /* Tags coloridas mantém as mesmas cores */
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-            --info: #3b82f6;
-            --purple: #8b5cf6;
-            --indigo: #6366f1;
         }
 
         * {
@@ -113,7 +105,7 @@
             border-color: var(--text-primary);
         }
 
-        /* Botão Nova Tarefa - preto/branco conforme tema */
+        /* Botão Nova Tarefa */
         .btn-add-task {
             background: var(--text-primary);
             color: var(--bg-primary);
@@ -127,6 +119,35 @@
         .btn-add-task:hover:not(:disabled) {
             background: var(--bg-primary);
             color: var(--text-primary);
+        }
+
+        /* Status de conexão */
+        .status-display {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            margin: 16px 0;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .status-connected {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+
+        .status-loading {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--info);
+            color: var(--info);
         }
 
         /* Seção de adicionar tarefa - inicialmente escondida */
@@ -161,65 +182,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-
-        /* Configuração */
-        .config-section {
-            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-accent));
-            border: 1px solid var(--border-accent);
-        }
-
-        .url-input {
-            width: 100%;
-            padding: 16px;
-            background: var(--bg-primary);
-            border: 2px solid var(--border-primary);
-            border-radius: 4px;
-            color: var(--text-primary);
-            font-size: 14px;
-            transition: all 0.2s ease;
-            margin: 12px 0;
-        }
-
-        .url-input:focus {
-            outline: none;
-            border-color: var(--text-primary);
-        }
-
-        .config-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-
-        /* Status */
-        .status-display {
-            padding: 16px;
-            border-radius: 12px;
-            font-weight: 500;
-            text-align: center;
-            margin: 16px 0;
-            transition: all 0.3s ease;
-        }
-
-        .status-connected {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--success);
-            color: var(--success);
-        }
-
-        .status-error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid var(--error);
-            color: var(--error);
-        }
-
-        .status-offline {
-            background: rgba(115, 115, 115, 0.1);
-            border: 1px solid var(--text-muted);
-            color: var(--text-muted);
         }
 
         /* Formulários */
@@ -265,7 +227,7 @@
             font-family: inherit;
         }
 
-        /* Botões - PRETO E BRANCO */
+        /* Botões */
         .btn {
             padding: 14px 24px;
             border-radius: 4px;
@@ -304,17 +266,6 @@
 
         .btn-secondary:hover:not(:disabled) {
             border-color: var(--text-primary);
-        }
-
-        .btn-test {
-            background: var(--text-primary);
-            color: var(--bg-primary);
-            border: 2px solid var(--text-primary);
-        }
-
-        .btn-test:hover:not(:disabled) {
-            background: var(--bg-primary);
-            color: var(--text-primary);
         }
 
         /* Filtros */
@@ -405,7 +356,7 @@
             border: 1px solid var(--error);
         }
 
-        /* Tags de Responsáveis - COLORIDAS */
+        /* Tags de Responsáveis */
         .responsaveis {
             display: flex;
             flex-wrap: wrap;
@@ -422,14 +373,12 @@
             font-weight: 500;
         }
 
-        /* Variações de cores para responsáveis */
-        .responsavel-tag:nth-child(1) { background: var(--info); border-color: var(--info); }
         .responsavel-tag:nth-child(2) { background: var(--purple); border-color: var(--purple); }
         .responsavel-tag:nth-child(3) { background: var(--indigo); border-color: var(--indigo); }
         .responsavel-tag:nth-child(4) { background: var(--success); border-color: var(--success); }
         .responsavel-tag:nth-child(5) { background: var(--warning); border-color: var(--warning); }
 
-        /* Ações - COLORIDAS */
+        /* Ações */
         .actions {
             display: flex;
             gap: 8px;
@@ -533,18 +482,6 @@
             font-style: italic;
         }
 
-        /* Warning box */
-        .warning-box {
-            background: var(--bg-accent);
-            border: 2px solid var(--border-primary);
-            color: var(--text-primary);
-            padding: 16px;
-            border-radius: 4px;
-            margin-bottom: 24px;
-            text-align: center;
-            font-weight: 500;
-        }
-
         /* Animações */
         @keyframes slideIn {
             from {
@@ -555,10 +492,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        .card {
-            animation: slideIn 0.3s ease;
         }
 
         /* Responsivo */
@@ -582,7 +515,7 @@
                 justify-content: center;
             }
             
-            .form-row, .filters .form-row, .config-buttons {
+            .form-row, .filters .form-row {
                 grid-template-columns: 1fr;
             }
             
@@ -604,20 +537,11 @@
                 min-width: 800px;
             }
         }
-
-        /* Melhorias de acessibilidade */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Logo grande no topo -->
+        <!-- Logo -->
         <div style="text-align: center; margin-bottom: 30px;">
             <img src="https://i.imgur.com/BkuBsa4.png" alt="Organizador de Mudança" style="width: 250px; height: 250px; border-radius: 50%; display: block; margin: 0 auto; border: 3px solid var(--border-primary);">
         </div>
@@ -635,43 +559,45 @@
                 </button>
             </div>
         </div>
-        
-        <!-- Warning sobre CodePen - só se necessário -->
-        <div class="warning-box" id="warningBox" style="display: none;">
-            ⚠️ <strong>IMPORTANTE:</strong> Se estiver no CodePen, baixe este arquivo e abra localmente!
-        </div>
 
+        <!-- Status de Conexão -->
+        <div id="connectionStatus" class="status-display status-loading" style="display: none;">
+            Verificando conexão...
+        </div>
+        
         <!-- Filtros -->
         <div class="filters">
-            <div class="form-group">
-                <label for="filtroFase">Filtrar por Fase</label>
-                <select id="filtroFase">
-                    <option value="">Todas as fases</option>
-                    <option value="Planejamento">Planejamento</option>
-                    <option value="Preparação">Preparação</option>
-                    <option value="Execução">Execução</option>
-                    <option value="Finalização">Finalização</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="filtroStatus">Filtrar por Status</label>
-                <select id="filtroStatus">
-                    <option value="">Todos os status</option>
-                    <option value="Pendente">Pendente</option>
-                    <option value="Em Andamento">Em Andamento</option>
-                    <option value="Concluída">Concluída</option>
-                    <option value="Atrasada">Atrasada</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="filtroResponsavel">Filtrar por Responsável</label>
-                <input type="text" id="filtroResponsavel" placeholder="Nome do responsável">
-            </div>
-            <div class="form-group">
-                <label>&nbsp;</label>
-                <button type="button" class="btn btn-secondary" onclick="limparFiltros()">
-                    🧹 Limpar Filtros
-                </button>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="filtroFase">Filtrar por Fase</label>
+                    <select id="filtroFase">
+                        <option value="">Todas as fases</option>
+                        <option value="Planejamento">Planejamento</option>
+                        <option value="Preparação">Preparação</option>
+                        <option value="Execução">Execução</option>
+                        <option value="Finalização">Finalização</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="filtroStatus">Filtrar por Status</label>
+                    <select id="filtroStatus">
+                        <option value="">Todos os status</option>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em Andamento">Em Andamento</option>
+                        <option value="Concluída">Concluída</option>
+                        <option value="Atrasada">Atrasada</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="filtroResponsavel">Filtrar por Responsável</label>
+                    <input type="text" id="filtroResponsavel" placeholder="Nome do responsável">
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button type="button" class="btn btn-secondary" onclick="limparFiltros()">
+                        Limpar Filtros
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -695,12 +621,12 @@
             </table>
         </div>
 
-        <!-- Formulário - Agora como seção retrátil -->
+        <!-- Formulário - Seção retrátil -->
         <div class="card form-section add-task-section" id="addTaskSection">
             <div class="card-title">
-                ➕ Adicionar Nova Tarefa
+                + Adicionar Nova Tarefa
                 <button class="btn btn-secondary" onclick="toggleAddTask()" style="margin-left: auto;">
-                    ✕ Fechar
+                    × Fechar
                 </button>
             </div>
             <form id="taskForm">
@@ -745,7 +671,7 @@
                     <textarea id="observacoes" placeholder="Observações adicionais (opcional)"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">
-                    ➕ Adicionar Tarefa
+                    + Adicionar Tarefa
                 </button>
             </form>
         </div>
@@ -755,7 +681,7 @@
     <div id="editModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>✏️ Editar Tarefa</h3>
+                <h3>Editar Tarefa</h3>
                 <button class="close-modal" onclick="fecharModal()">&times;</button>
             </div>
             <form id="editForm">
@@ -800,35 +726,41 @@
                 </div>
                 <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
                     <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
-                    <button type="submit" class="btn">💾 Salvar Alterações</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        // 🔗 URL DO APPS SCRIPT - HARDCODED
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzn4UNJ0oQAPBOMn7QAzo_OtNh3JPgx8OZIXlQ4LKE-1RxFCyVteFBK7TO6BEPuyoSV/exec';
+        // URL DO APPS SCRIPT - COLOQUE A SUA AQUI
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw470Btw73qudZg59IONrTsyGQo8XvBDq6eZMBVxFzTUuMr4g2ndLxrfE4Y2WhTyem7/exec';
 
-        // 🎯 Toggle Add Task Section
-        function toggleAddTask() {
-            const section = document.getElementById('addTaskSection');
-            const isVisible = section.classList.contains('show');
-            
-            if (isVisible) {
-                section.classList.remove('show');
-                console.log('📝 Seção de adicionar fechada');
-            } else {
-                section.classList.add('show');
-                // Scroll suave até a seção
-                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                // Focar no primeiro campo
-                setTimeout(() => {
-                    document.getElementById('fase').focus();
-                }, 300);
-                console.log('📝 Seção de adicionar aberta');
+        // Dados locais com exemplos iniciais
+        let tasks = JSON.parse(localStorage.getItem('mudancaTasks')) || [
+            {
+                id: 1,
+                fase: 'Planejamento',
+                tarefa: 'Definir data da mudança',
+                responsaveis: 'João, Maria',
+                prazo: '15/09/2024',
+                status: 'Concluída',
+                observacoes: 'Data definida para 30/09'
+            },
+            {
+                id: 2,
+                fase: 'Preparação',
+                tarefa: 'Contratar empresa de mudança',
+                responsaveis: 'João',
+                prazo: '20/09/2024',
+                status: 'Em Andamento',
+                observacoes: 'Orçamentos solicitados'
             }
-        }
+        ];
+        
+        let nextId = Math.max(...tasks.map(t => t.id), 0) + 1;
+
+        // Toggle do tema
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -838,388 +770,213 @@
             
             const icon = document.getElementById('themeIcon');
             icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-            
-            console.log('🎨 Tema alterado para:', newTheme);
         }
 
-        // 🎨 Inicializar tema
+        // Inicializar tema
         function initTheme() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             
             const icon = document.getElementById('themeIcon');
             icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Toggle da seção de adicionar tarefa
+        function toggleAddTask() {
+            const section = document.getElementById('addTaskSection');
+            const isVisible = section.classList.contains('show');
             
-            // Detectar preferência do sistema se não há tema salvo
-            if (!localStorage.getItem('theme')) {
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (prefersDark) {
-                    toggleTheme();
-                }
+            if (isVisible) {
+                section.classList.remove('show');
+            } else {
+                section.classList.add('show');
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                setTimeout(() => {
+                    document.getElementById('fase').focus();
+                }, 300);
             }
         }
 
-        // 📊 Dados locais
-        let tasks = JSON.parse(localStorage.getItem('mudancaTasks')) || [
-            {
-                id: 1,
-                fase: 'Planejamento',
-                tarefa: 'Definir data da mudança',
-                responsaveis: 'João, Maria',
-                prazo: '2024-09-15',
-                status: 'Concluída',
-                observacoes: 'Data definida para 30/09'
-            },
-            {
-                id: 2,
-                fase: 'Preparação',
-                tarefa: 'Contratar empresa de mudança',
-                responsaveis: 'João',
-                prazo: '2024-09-20',
-                status: 'Em Andamento',
-                observacoes: 'Orçamentos solicitados'
-            }
-        ];
-        
-        let nextId = Math.max(...tasks.map(t => t.id), 0) + 1;
-
-        // 💾 Salvar no LocalStorage
+        // Salvar dados no localStorage
         function salvarDados() {
             localStorage.setItem('mudancaTasks', JSON.stringify(tasks));
         }
 
-        // 🔌 Status da conexão - SIMPLIFICADO
-        function updateStatus(type, message) {
-            // Status só no console agora
-            console.log(`Status: ${type} - ${message}`);
-        }
-
-        // 🧪 Testar conexão
-        async function testarConexao() {
-            const url = document.getElementById('appsScriptUrl').value.trim();
+        // Atualizar status da conexão
+        function updateConnectionStatus(type, message) {
+            const statusEl = document.getElementById('connectionStatus');
+            statusEl.style.display = 'block';
+            statusEl.textContent = message;
+            statusEl.className = `status-display status-${type}`;
             
-            if (!url) {
-                updateStatus('error', '❌ Digite a URL do Apps Script primeiro!');
-                return false;
-            }
-
-            if (!url.includes('script.google.com')) {
-                updateStatus('error', '❌ URL inválida! Deve ser do Google Apps Script.');
-                return false;
-            }
-
-            try {
-                updateStatus('', '🧪 Testando conexão...');
-                
-                const response = await fetch(url);
-                
-                if (response.ok) {
-                    const text = await response.text();
-                    if (text.includes('funcionando')) {
-                        updateStatus('connected', '✅ Conexão OK!');
-                        localStorage.setItem('appsScriptUrl', url);
-                        console.log('✅ URL salva após teste bem-sucedido');
-                        return true;
-                    }
-                }
-                
-                updateStatus('error', '❌ Apps Script não responde - verifique deploy');
-                return false;
-
-            } catch (error) {
-                console.error('Erro no teste:', error);
-                if (error.message.includes('Failed to fetch')) {
-                    updateStatus('error', '❌ CORS Error - use arquivo local, não CodePen!');
-                } else {
-                    updateStatus('error', '❌ Erro: ' + error.message);
-                }
-                return false;
+            console.log(`Status: ${type} - ${message}`);
+            
+            // Ocultar após 5 segundos se não for erro
+            if (type !== 'error') {
+                setTimeout(() => {
+                    statusEl.style.display = 'none';
+                }, 5000);
             }
         }
 
-        // 📡 Carregar dados - AUTO COM URL FIXA
+        // Carregar dados do Google Sheets
         async function carregarDados(automatico = false) {
             if (!automatico) {
-                console.log('🔄 Carregando dados do Google Sheets...');
+                updateConnectionStatus('loading', 'Carregando dados do Google Sheets...');
             }
             
-            return new Promise((resolve, reject) => {
-                // Callback único
+            return new Promise((resolve) => {
                 const callbackName = 'loadData' + Date.now();
                 const script = document.createElement('script');
                 
-                // Timeout
                 const timeout = setTimeout(() => {
-                    if (script.parentNode) {
-                        document.head.removeChild(script);
-                    }
-                    delete window[callbackName];
+                    cleanup();
                     if (!automatico) {
-                        console.warn('⏰ Timeout ao carregar dados');
+                        updateConnectionStatus('error', 'Timeout ao carregar dados do Google Sheets');
                     }
-                    carregarTabela();
-                    reject(new Error('Timeout'));
+                    resolve(false);
                 }, automatico ? 5000 : 15000);
 
-                // Callback global
-                window[callbackName] = function(data) {
+                function cleanup() {
                     clearTimeout(timeout);
                     if (script.parentNode) {
                         document.head.removeChild(script);
                     }
                     delete window[callbackName];
+                }
+
+                window[callbackName] = function(data) {
+                    cleanup();
                     
-                    if (data && data.success) {
-                        tasks = data.data || [];
+                    if (data && data.success && data.data) {
+                        // Processar dados recebidos
+                        const dadosRecebidos = data.data.filter(item => 
+                            item.tarefa && item.tarefa.trim() !== ''
+                        );
                         
-                        // Corrigir todas as datas que vêm do Sheets
-                        tasks.forEach(task => {
-                            if (task.prazo) {
-                                task.prazo = formatarDataSemLog(task.prazo);
+                        if (dadosRecebidos.length > 0) {
+                            tasks = dadosRecebidos;
+                            // Garantir que todos os IDs sejam únicos
+                            tasks.forEach((task, index) => {
+                                if (!task.id) {
+                                    task.id = index + 1;
+                                }
+                            });
+                            nextId = Math.max(...tasks.map(t => t.id || 0)) + 1;
+                            
+                            salvarDados();
+                            carregarTabela();
+                            
+                            if (!automatico) {
+                                updateConnectionStatus('connected', `${tasks.length} tarefas carregadas com sucesso!`);
                             }
-                        });
-                        
-                        console.log(`✅ ${tasks.length} tarefas ${automatico ? 'sincronizadas' : 'carregadas'} do Google Sheets`);
-                        salvarDados();
+                            console.log(`Dados carregados: ${tasks.length} tarefas`);
+                        } else {
+                            if (!automatico) {
+                                updateConnectionStatus('connected', 'Planilha conectada (vazia)');
+                            }
+                        }
                     } else {
                         if (!automatico) {
-                            console.error('❌ Erro ao carregar:', data?.error || 'Resposta inválida');
+                            updateConnectionStatus('error', 'Erro ao carregar dados: ' + (data?.error || 'Resposta inválida'));
                         }
                     }
                     
-                    carregarTabela();
-                    resolve();
+                    resolve(data && data.success);
                 };
 
-                // Criar URL JSONP
-                const jsonpUrl = `${APPS_SCRIPT_URL}?callback=${callbackName}&action=obterTarefas`;
-                script.src = jsonpUrl;
-                
-                // Tratar erros de script
+                script.src = `${APPS_SCRIPT_URL}?callback=${callbackName}&action=obterTarefas&t=${Date.now()}`;
                 script.onerror = function() {
-                    clearTimeout(timeout);
-                    delete window[callbackName];
+                    cleanup();
                     if (!automatico) {
-                        console.error('❌ Erro ao executar script');
+                        updateConnectionStatus('error', 'Erro de conexão - verifique se o Apps Script está ativo');
                     }
-                    carregarTabela();
-                    reject(new Error('Script error'));
+                    resolve(false);
                 };
                 
                 document.head.appendChild(script);
             });
         }
 
-        // Função auxiliar para não fazer log excessivo
-        function formatarDataSemLog(dataString) {
-            if (!dataString) return '-';
-            
-            if (typeof dataString === 'string' && dataString.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/)) {
-                return dataString;
-            }
-            
-            let data;
-            
-            if (dataString instanceof Date) {
-                data = dataString;
-            } else if (typeof dataString === 'string' && dataString.includes('T')) {
-                data = new Date(dataString);
-            } else if (typeof dataString === 'string' && dataString.match(/^\d{4}-\d{1,2}-\d{1,2}$/)) {
-                const [ano, mes, dia] = dataString.split('-');
-                data = new Date(ano, mes - 1, dia);
-            } else {
-                data = new Date(dataString);
-            }
-            
-            if (isNaN(data.getTime())) {
-                return dataString;
-            }
-            
-            const dia = String(data.getDate()).padStart(2, '0');
-            const mes = String(data.getMonth() + 1).padStart(2, '0');
-            const ano = data.getFullYear();
-            
-            return `${dia}/${mes}/${ano}`;
-        }
-
-        // 📋 Carregar tabela
-        function carregarTabela(dadosFiltrados = null) {
-            const tbody = document.getElementById('tasksBody');
-            const dados = dadosFiltrados || tasks;
-            
-            tbody.innerHTML = '';
-            
-            if (dados.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="empty-state">
-                            📭 Nenhuma tarefa encontrada. Adicione a primeira tarefa!
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            dados.forEach(task => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${task.fase}</strong></td>
-                    <td>${task.tarefa}</td>
-                    <td>
-                        <div class="responsaveis">
-                            ${task.responsaveis.split(',').map(resp => 
-                                `<span class="responsavel-tag">${resp.trim()}</span>`
-                            ).join('')}
-                        </div>
-                    </td>
-                    <td>${formatarData(task.prazo)}</td>
-                    <td><span class="status-badge status-${task.status.toLowerCase().replace(' ', '-')}">${task.status}</span></td>
-                    <td>${task.observacoes || '-'}</td>
-                    <td>
-                        <div class="actions">
-                            <button class="action-btn edit-btn" onclick="editarTarefa(${task.id})">Editar</button>
-                            <button class="action-btn delete-btn" onclick="excluirTarefa(${task.id})">Excluir</button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        // 📅 Formatador de data - SUPER CORRIGIDO
-        function formatarData(dataString) {
-            if (!dataString) return '-';
-            
-            console.log('🔍 Formatando data:', dataString);
-            
-            // Se já está no formato brasileiro DD/MM/YYYY
-            if (typeof dataString === 'string' && dataString.match(/^\d{1,2}\/\d{1,2}\/\d{4}$/)) {
-                return dataString;
-            }
-            
-            let data;
-            
-            // Se é um objeto Date
-            if (dataString instanceof Date) {
-                data = dataString;
-            }
-            // Se contém 'T' (formato ISO completo)
-            else if (typeof dataString === 'string' && dataString.includes('T')) {
-                data = new Date(dataString);
-            }
-            // Se está no formato YYYY-MM-DD
-            else if (typeof dataString === 'string' && dataString.match(/^\d{4}-\d{1,2}-\d{1,2}$/)) {
-                const [ano, mes, dia] = dataString.split('-');
-                data = new Date(ano, mes - 1, dia); // mes-1 porque Date usa 0-11
-            }
-            // Outros formatos
-            else {
-                data = new Date(dataString);
-            }
-            
-            // Verificar se é uma data válida
-            if (isNaN(data.getTime())) {
-                console.warn('⚠️ Data inválida:', dataString);
-                return dataString;
-            }
-            
-            // Formatação manual para evitar fuso horário
-            const dia = String(data.getDate()).padStart(2, '0');
-            const mes = String(data.getMonth() + 1).padStart(2, '0');
-            const ano = data.getFullYear();
-            
-            const dataFormatada = `${dia}/${mes}/${ano}`;
-            console.log('✅ Data formatada:', dataString, '→', dataFormatada);
-            
-            return dataFormatada;
-        }
-
-        // 📤 Adicionar tarefa - JSONP PURO com data corrigida
+        // Adicionar nova tarefa
         async function adicionarTarefa(dados) {
-            // Converter data para formato brasileiro antes de salvar
+            // Converter data para formato brasileiro
             let dataFormatada = dados.prazo;
             if (dados.prazo && dados.prazo.includes('-')) {
-                // Está no formato YYYY-MM-DD, converter para DD/MM/YYYY
                 const [ano, mes, dia] = dados.prazo.split('-');
                 dataFormatada = `${dia}/${mes}/${ano}`;
             }
             
             const dadosFormatados = {
                 ...dados,
-                prazo: dataFormatada
+                prazo: dataFormatada,
+                id: nextId++
             };
             
-            console.log('📅 Data convertida:', dados.prazo, '→', dataFormatada);
-            
-            // Sempre adicionar localmente primeiro
-            const novaTarefa = { id: nextId++, ...dadosFormatados };
-            tasks.push(novaTarefa);
+            // Adicionar localmente primeiro
+            tasks.push(dadosFormatados);
             carregarTabela();
             salvarDados();
-
-            console.log('📤 Salvando no Google Sheets...');
             
-            return new Promise((resolve, reject) => {
-                // Callback único
+            updateConnectionStatus('loading', 'Salvando tarefa no Google Sheets...');
+            
+            return new Promise((resolve) => {
                 const callbackName = 'addTask' + Date.now();
                 const script = document.createElement('script');
                 
-                // Timeout
                 const timeout = setTimeout(() => {
-                    if (script.parentNode) {
-                        document.head.removeChild(script);
-                    }
-                    delete window[callbackName];
-                    console.warn('⏰ Timeout ao adicionar - mantido localmente');
-                    reject(new Error('Timeout'));
-                }, 10000);
+                    cleanup();
+                    updateConnectionStatus('error', 'Timeout ao salvar - tarefa mantida localmente');
+                    resolve(false);
+                }, 15000);
 
-                // Callback global
-                window[callbackName] = function(data) {
+                function cleanup() {
                     clearTimeout(timeout);
                     if (script.parentNode) {
                         document.head.removeChild(script);
                     }
                     delete window[callbackName];
+                }
+
+                window[callbackName] = function(data) {
+                    cleanup();
                     
                     if (data && data.success) {
-                        console.log('✅ Tarefa salva no Google Sheets!');
-                        // Recarregar dados para sincronizar
-                        setTimeout(() => carregarDados(true), 500);
+                        updateConnectionStatus('connected', 'Tarefa salva com sucesso no Google Sheets!');
+                        // Recarregar dados após salvar
+                        setTimeout(() => carregarDados(true), 1000);
                     } else {
-                        console.error('❌ Erro ao salvar:', data?.error || 'Falha desconhecida');
+                        updateConnectionStatus('error', 'Erro ao salvar: ' + (data?.error || 'Falha desconhecida'));
                     }
                     
                     resolve(data && data.success);
                 };
 
-                // Montar URL JSONP com parâmetros
+                // Criar URL com parâmetros
                 const params = new URLSearchParams({
                     callback: callbackName,
                     action: 'adicionarTarefa',
-                    fase: dadosFormatados.fase,
-                    tarefa: dadosFormatados.tarefa,
-                    responsaveis: dadosFormatados.responsaveis,
-                    prazo: dadosFormatados.prazo,
-                    status: dadosFormatados.status,
-                    observacoes: dadosFormatados.observacoes || ''
+                    fase: dadosFormatados.fase || '',
+                    tarefa: dadosFormatados.tarefa || '',
+                    responsaveis: dadosFormatados.responsaveis || '',
+                    prazo: dadosFormatados.prazo || '',
+                    status: dadosFormatados.status || '',
+                    observacoes: dadosFormatados.observacoes || '',
+                    t: Date.now()
                 });
                 
-                const jsonpUrl = `${APPS_SCRIPT_URL}?${params.toString()}`;
-                script.src = jsonpUrl;
-                
+                script.src = `${APPS_SCRIPT_URL}?${params.toString()}`;
                 script.onerror = function() {
-                    clearTimeout(timeout);
-                    delete window[callbackName];
-                    console.error('❌ Erro ao executar script - mantido localmente');
-                    reject(new Error('Script error'));
+                    cleanup();
+                    updateConnectionStatus('error', 'Erro de conexão ao salvar tarefa');
+                    resolve(false);
                 };
                 
                 document.head.appendChild(script);
             });
         }
 
-        // ✏️ Editar tarefa
+        // Editar tarefa
         function editarTarefa(id) {
             const task = tasks.find(t => t.id == id);
             if (!task) {
@@ -1231,16 +988,24 @@
             document.getElementById('editFase').value = task.fase;
             document.getElementById('editTarefa').value = task.tarefa;
             document.getElementById('editResponsaveis').value = task.responsaveis;
-            document.getElementById('editPrazo').value = task.prazo;
+            
+            // Converter data brasileira para formato de input
+            let dataInput = task.prazo;
+            if (task.prazo && task.prazo.includes('/')) {
+                const [dia, mes, ano] = task.prazo.split('/');
+                dataInput = `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+            }
+            document.getElementById('editPrazo').value = dataInput;
+            
             document.getElementById('editStatus').value = task.status;
             document.getElementById('editObservacoes').value = task.observacoes || '';
             
             document.getElementById('editModal').style.display = 'block';
         }
 
-        // 💾 Salvar edição - COM SYNC na planilha
+        // Salvar edição
         async function salvarEdicao(id, dados) {
-            // Converter data se necessário
+            // Converter data para formato brasileiro
             let dataFormatada = dados.prazo;
             if (dados.prazo && dados.prazo.includes('-')) {
                 const [ano, mes, dia] = dados.prazo.split('-');
@@ -1260,70 +1025,63 @@
                 salvarDados();
             }
             
-            console.log('📝 Atualizando na planilha...', { id, dadosFormatados });
+            updateConnectionStatus('loading', 'Atualizando tarefa no Google Sheets...');
             
-            return new Promise((resolve, reject) => {
-                // Callback único
+            return new Promise((resolve) => {
                 const callbackName = 'editTask' + Date.now();
                 const script = document.createElement('script');
                 
-                // Timeout
                 const timeout = setTimeout(() => {
-                    if (script.parentNode) {
-                        document.head.removeChild(script);
-                    }
-                    delete window[callbackName];
-                    console.warn('⏰ Timeout ao editar - mantido localmente');
-                    reject(new Error('Timeout'));
-                }, 10000);
+                    cleanup();
+                    updateConnectionStatus('error', 'Timeout ao atualizar - alterações mantidas localmente');
+                    resolve(false);
+                }, 15000);
 
-                // Callback global
-                window[callbackName] = function(data) {
+                function cleanup() {
                     clearTimeout(timeout);
                     if (script.parentNode) {
                         document.head.removeChild(script);
                     }
                     delete window[callbackName];
+                }
+
+                window[callbackName] = function(data) {
+                    cleanup();
                     
                     if (data && data.success) {
-                        console.log('✅ Tarefa editada na planilha!');
-                        // Recarregar dados para sincronizar
-                        setTimeout(() => carregarDados(true), 500);
+                        updateConnectionStatus('connected', 'Tarefa atualizada com sucesso!');
                     } else {
-                        console.error('❌ Erro ao editar na planilha:', data?.error || 'Falha desconhecida');
+                        updateConnectionStatus('error', 'Erro ao atualizar: ' + (data?.error || 'Falha desconhecida'));
                     }
                     
                     resolve(data && data.success);
                 };
 
-                // Montar URL JSONP com parâmetros
                 const params = new URLSearchParams({
                     callback: callbackName,
                     action: 'atualizarTarefa',
                     id: id,
-                    fase: dadosFormatados.fase,
-                    tarefa: dadosFormatados.tarefa,
-                    responsaveis: dadosFormatados.responsaveis,
-                    prazo: dadosFormatados.prazo,
-                    status: dadosFormatados.status,
-                    observacoes: dadosFormatados.observacoes || ''
+                    fase: dadosFormatados.fase || '',
+                    tarefa: dadosFormatados.tarefa || '',
+                    responsaveis: dadosFormatados.responsaveis || '',
+                    prazo: dadosFormatados.prazo || '',
+                    status: dadosFormatados.status || '',
+                    observacoes: dadosFormatados.observacoes || '',
+                    t: Date.now()
                 });
                 
-                const jsonpUrl = `${APPS_SCRIPT_URL}?${params.toString()}`;
-                script.src = jsonpUrl;
-                
+                script.src = `${APPS_SCRIPT_URL}?${params.toString()}`;
                 script.onerror = function() {
-                    clearTimeout(timeout);
-                    delete window[callbackName];
-                    console.error('❌ Erro ao executar script - mantido localmente');
-                    reject(new Error('Script error'));
+                    cleanup();
+                    updateConnectionStatus('error', 'Erro de conexão ao atualizar tarefa');
+                    resolve(false);
                 };
                 
                 document.head.appendChild(script);
             });
         }
 
-        // 🗑️ Excluir tarefa - COM SYNC na planilha
+        // Excluir tarefa
         async function excluirTarefa(id) {
             if (!confirm('Tem certeza que deseja excluir esta tarefa?')) {
                 return;
@@ -1334,64 +1092,101 @@
             carregarTabela();
             salvarDados();
             
-            console.log('🗑️ Excluindo da planilha...', { id });
+            updateConnectionStatus('loading', 'Excluindo tarefa do Google Sheets...');
             
-            return new Promise((resolve, reject) => {
-                // Callback único
+            return new Promise((resolve) => {
                 const callbackName = 'deleteTask' + Date.now();
                 const script = document.createElement('script');
                 
-                // Timeout
                 const timeout = setTimeout(() => {
-                    if (script.parentNode) {
-                        document.head.removeChild(script);
-                    }
-                    delete window[callbackName];
-                    console.warn('⏰ Timeout ao excluir - removido localmente');
-                    reject(new Error('Timeout'));
-                }, 10000);
+                    cleanup();
+                    updateConnectionStatus('error', 'Timeout ao excluir - tarefa removida localmente');
+                    resolve(false);
+                }, 15000);
 
-                // Callback global
-                window[callbackName] = function(data) {
+                function cleanup() {
                     clearTimeout(timeout);
                     if (script.parentNode) {
                         document.head.removeChild(script);
                     }
                     delete window[callbackName];
+                }
+
+                window[callbackName] = function(data) {
+                    cleanup();
                     
                     if (data && data.success) {
-                        console.log('✅ Tarefa excluída da planilha!');
-                        // Recarregar dados para sincronizar
-                        setTimeout(() => carregarDados(true), 500);
+                        updateConnectionStatus('connected', 'Tarefa excluída com sucesso!');
                     } else {
-                        console.error('❌ Erro ao excluir da planilha:', data?.error || 'Falha desconhecida');
+                        updateConnectionStatus('error', 'Erro ao excluir: ' + (data?.error || 'Falha desconhecida'));
                     }
                     
                     resolve(data && data.success);
                 };
 
-                // Montar URL JSONP com parâmetros
                 const params = new URLSearchParams({
                     callback: callbackName,
                     action: 'excluirTarefa',
-                    id: id
+                    id: id,
+                    t: Date.now()
                 });
                 
-                const jsonpUrl = `${APPS_SCRIPT_URL}?${params.toString()}`;
-                script.src = jsonpUrl;
-                
+                script.src = `${APPS_SCRIPT_URL}?${params.toString()}`;
                 script.onerror = function() {
-                    clearTimeout(timeout);
-                    delete window[callbackName];
-                    console.error('❌ Erro ao executar script - removido localmente');
-                    reject(new Error('Script error'));
+                    cleanup();
+                    updateConnectionStatus('error', 'Erro de conexão ao excluir tarefa');
+                    resolve(false);
                 };
                 
                 document.head.appendChild(script);
             });
         }
 
-        // 🔍 Filtros
+        // Carregar tabela
+        function carregarTabela(dadosFiltrados = null) {
+            const tbody = document.getElementById('tasksBody');
+            const dados = dadosFiltrados || tasks;
+            
+            tbody.innerHTML = '';
+            
+            if (dados.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            Nenhuma tarefa encontrada. Adicione a primeira tarefa!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            dados.forEach(task => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${task.fase || ''}</strong></td>
+                    <td>${task.tarefa || ''}</td>
+                    <td>
+                        <div class="responsaveis">
+                            ${(task.responsaveis || '').split(',').map(resp => 
+                                resp.trim() ? `<span class="responsavel-tag">${resp.trim()}</span>` : ''
+                            ).join('')}
+                        </div>
+                    </td>
+                    <td>${task.prazo || '-'}</td>
+                    <td><span class="status-badge status-${(task.status || '').toLowerCase().replace(' ', '-')}">${task.status || ''}</span></td>
+                    <td>${task.observacoes || '-'}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn edit-btn" onclick="editarTarefa(${task.id})">Editar</button>
+                            <button class="action-btn delete-btn" onclick="excluirTarefa(${task.id})">Excluir</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Aplicar filtros
         function aplicarFiltros() {
             const filtroFase = document.getElementById('filtroFase').value;
             const filtroStatus = document.getElementById('filtroStatus').value;
@@ -1409,14 +1204,14 @@
             
             if (filtroResponsavel) {
                 dadosFiltrados = dadosFiltrados.filter(task => 
-                    task.responsaveis.toLowerCase().includes(filtroResponsavel)
+                    (task.responsaveis || '').toLowerCase().includes(filtroResponsavel)
                 );
             }
             
             carregarTabela(dadosFiltrados);
         }
 
-        // 🧹 Limpar filtros
+        // Limpar filtros
         function limparFiltros() {
             document.getElementById('filtroFase').value = '';
             document.getElementById('filtroStatus').value = '';
@@ -1424,28 +1219,31 @@
             carregarTabela();
         }
 
-        // ❌ Fechar modal
+        // Fechar modal
         function fecharModal() {
             document.getElementById('editModal').style.display = 'none';
         }
 
-        // 🎯 Event Listeners
+        // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
-            
-            // 🎨 Inicializar tema
+            // Inicializar tema
             initTheme();
             
-            // 🔍 Detectar se está no CodePen
-            if (window.location.href.includes('codepen.io')) {
-                document.getElementById('warningBox').style.display = 'block';
-            }
+            // Carregar tabela inicial
+            carregarTabela();
             
-            // 🚀 CARREGAR AUTOMATICAMENTE
-            console.log('🚀 Carregando dados automaticamente...');
+            // Carregar dados do Google Sheets após 1 segundo
             setTimeout(() => {
-                carregarDados(true); // true = carregamento automático
+                carregarDados();
             }, 1000);
+            
+            // Auto-sincronizar a cada 60 segundos
+            setInterval(() => {
+                carregarDados(true);
+            }, 60000);
 
+            // Event Listeners
+            
             // Formulário principal
             document.getElementById('taskForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
@@ -1498,15 +1296,7 @@
                 }
             });
             
-            // Inicializar - carregar dados locais primeiro
-            carregarTabela();
-            
-            // 🔄 Auto-sincronizar a cada 30 segundos
-            setInterval(() => {
-                carregarDados(true); // Sincronização silenciosa
-            }, 30000);
-            
-            console.log('📱 Sistema inicializado');
+            console.log('Sistema inicializado com sucesso!');
         });
     </script>
 </body>
