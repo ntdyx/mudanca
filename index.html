@@ -6,7 +6,6 @@
     <title>Organizador de Mudança</title>
     <style>
         :root {
-            /* Cores Light Mode - APENAS PRETO E BRANCO */
             --bg-primary: #ffffff;
             --bg-secondary: #fafafa;
             --bg-accent: #f5f5f5;
@@ -16,8 +15,6 @@
             --border-primary: #e0e0e0;
             --border-accent: #d0d0d0;
             --shadow: rgba(0, 0, 0, 0.1);
-            
-            /* Cores para tags coloridas */
             --success: #10b981;
             --warning: #f59e0b;
             --error: #ef4444;
@@ -27,7 +24,6 @@
         }
 
         [data-theme="dark"] {
-            /* Cores Dark Mode - APENAS PRETO E BRANCO */
             --bg-primary: #000000;
             --bg-secondary: #111111;
             --bg-accent: #1a1a1a;
@@ -59,7 +55,6 @@
             padding: 24px;
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -105,7 +100,62 @@
             border-color: var(--text-primary);
         }
 
-        /* Botão Nova Tarefa */
+        .tab-navigation {
+            display: flex;
+            gap: 0;
+            margin-bottom: 32px;
+            border-bottom: 2px solid var(--border-primary);
+        }
+
+        .tab-btn {
+            padding: 16px 24px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-primary);
+            border-bottom: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab-btn.active {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+            position: relative;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--bg-primary);
+        }
+
+        .tab-btn:hover:not(.active) {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .btn-add-task {
             background: var(--text-primary);
             color: var(--bg-primary);
@@ -121,7 +171,6 @@
             color: var(--text-primary);
         }
 
-        /* Status de conexão */
         .status-display {
             padding: 12px 16px;
             border-radius: 8px;
@@ -150,7 +199,6 @@
             color: var(--info);
         }
 
-        /* Seção de adicionar tarefa - inicialmente escondida */
         .add-task-section {
             display: none;
         }
@@ -160,7 +208,6 @@
             animation: slideIn 0.3s ease;
         }
 
-        /* Cards */
         .card {
             background: var(--bg-secondary);
             border: 2px solid var(--border-primary);
@@ -184,7 +231,6 @@
             gap: 8px;
         }
 
-        /* Formulários */
         .form-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -227,7 +273,6 @@
             font-family: inherit;
         }
 
-        /* Botões */
         .btn {
             padding: 14px 24px;
             border-radius: 4px;
@@ -268,7 +313,6 @@
             border-color: var(--text-primary);
         }
 
-        /* Filtros */
         .filters {
             background: var(--bg-accent);
             border: 2px solid var(--border-primary);
@@ -281,7 +325,6 @@
             margin-bottom: 0;
         }
 
-        /* Tabela */
         .table-container {
             background: var(--bg-secondary);
             border: 2px solid var(--border-primary);
@@ -321,7 +364,6 @@
             border-bottom: none;
         }
 
-        /* Tags e Badges */
         .status-badge {
             padding: 6px 12px;
             border-radius: 20px;
@@ -356,7 +398,6 @@
             border: 1px solid var(--error);
         }
 
-        /* Tags de Responsáveis */
         .responsaveis {
             display: flex;
             flex-wrap: wrap;
@@ -378,7 +419,27 @@
         .responsavel-tag:nth-child(4) { background: var(--success); border-color: var(--success); }
         .responsavel-tag:nth-child(5) { background: var(--warning); border-color: var(--warning); }
 
-        /* Ações */
+        .quantity-badge {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0 4px;
+        }
+
+        .quantity-nj {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+            border: 1px solid var(--info);
+        }
+
+        .quantity-lc {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--purple);
+            border: 1px solid var(--purple);
+        }
+
         .actions {
             display: flex;
             gap: 8px;
@@ -416,7 +477,6 @@
             color: var(--error);
         }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -474,7 +534,6 @@
             color: var(--text-primary);
         }
 
-        /* Estados vazios */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -482,7 +541,6 @@
             font-style: italic;
         }
 
-        /* Animações */
         @keyframes slideIn {
             from {
                 opacity: 0;
@@ -494,7 +552,6 @@
             }
         }
 
-        /* Responsivo */
         @media (max-width: 768px) {
             .container {
                 padding: 16px;
@@ -536,6 +593,15 @@
             table {
                 min-width: 800px;
             }
+
+            .tab-navigation {
+                flex-wrap: wrap;
+            }
+
+            .tab-btn {
+                flex: 1;
+                min-width: 120px;
+            }
         }
     </style>
 </head>
@@ -551,7 +617,7 @@
                 <h1>Organizador de Mudança</h1>
             </div>
             <div class="header-right">
-                <button class="btn btn-add-task" onclick="toggleAddTask()">
+                <button class="btn btn-add-task" onclick="toggleAddItem()" id="addItemBtn">
                     + Nova Tarefa
                 </button>
                 <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
@@ -564,77 +630,26 @@
         <div id="connectionStatus" class="status-display status-loading" style="display: none;">
             Verificando conexão...
         </div>
-        
-        <!-- Filtros -->
-        <div class="filters">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="filtroFase">Filtrar por Fase</label>
-                    <select id="filtroFase">
-                        <option value="">Todas as fases</option>
-                        <option value="Planejamento">Planejamento</option>
-                        <option value="Preparação">Preparação</option>
-                        <option value="Execução">Execução</option>
-                        <option value="Finalização">Finalização</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="filtroStatus">Filtrar por Status</label>
-                    <select id="filtroStatus">
-                        <option value="">Todos os status</option>
-                        <option value="Pendente">Pendente</option>
-                        <option value="Em Andamento">Em Andamento</option>
-                        <option value="Concluída">Concluída</option>
-                        <option value="Atrasada">Atrasada</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="filtroResponsavel">Filtrar por Responsável</label>
-                    <input type="text" id="filtroResponsavel" placeholder="Nome do responsável">
-                </div>
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <button type="button" class="btn btn-secondary" onclick="limparFiltros()">
-                        Limpar Filtros
-                    </button>
-                </div>
-            </div>
+
+        <!-- Navegação por abas -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab('tasks')">
+                📋 TAREFAS
+            </button>
+            <button class="tab-btn" onclick="switchTab('checklist')">
+                ✅ CHECKLIST
+            </button>
         </div>
 
-        <!-- Tabela -->
-        <div class="table-container">
-            <table id="tasksTable">
-                <thead>
-                    <tr>
-                        <th>Fase</th>
-                        <th>Tarefa</th>
-                        <th>Responsáveis</th>
-                        <th>Prazo</th>
-                        <th>Status</th>
-                        <th>Observações</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="tasksBody">
-                    <!-- Dados serão carregados via JavaScript -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Formulário - Seção retrátil -->
-        <div class="card form-section add-task-section" id="addTaskSection">
-            <div class="card-title">
-                + Adicionar Nova Tarefa
-                <button class="btn btn-secondary" onclick="toggleAddTask()" style="margin-left: auto;">
-                    × Fechar
-                </button>
-            </div>
-            <form id="taskForm">
+        <!-- ABA TAREFAS -->
+        <div class="tab-content active" id="tasks-content">
+            <!-- Filtros -->
+            <div class="filters">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="fase">Fase</label>
-                        <select id="fase" required>
-                            <option value="">Selecionar fase</option>
+                        <label for="filtroFase">Filtrar por Fase</label>
+                        <select id="filtroFase">
+                            <option value="">Todas as fases</option>
                             <option value="Planejamento">Planejamento</option>
                             <option value="Preparação">Preparação</option>
                             <option value="Execução">Execução</option>
@@ -642,42 +657,182 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="tarefa">Tarefa</label>
-                        <input type="text" id="tarefa" required placeholder="Descrição da tarefa">
-                    </div>
-                    <div class="form-group">
-                        <label for="responsaveis">Responsáveis</label>
-                        <input type="text" id="responsaveis" required placeholder="Nome1, Nome2, Nome3">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="prazo">Prazo</label>
-                        <input type="date" id="prazo" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select id="status" required>
-                            <option value="">Selecionar status</option>
+                        <label for="filtroStatus">Filtrar por Status</label>
+                        <select id="filtroStatus">
+                            <option value="">Todos os status</option>
                             <option value="Pendente">Pendente</option>
                             <option value="Em Andamento">Em Andamento</option>
                             <option value="Concluída">Concluída</option>
                             <option value="Atrasada">Atrasada</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="filtroResponsavel">Filtrar por Responsável</label>
+                        <input type="text" id="filtroResponsavel" placeholder="Nome do responsável">
+                    </div>
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-secondary" onclick="limparFiltrosTasks()">
+                            Limpar Filtros
+                        </button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="observacoes">Observações</label>
-                    <textarea id="observacoes" placeholder="Observações adicionais (opcional)"></textarea>
+            </div>
+
+            <!-- Tabela de Tarefas -->
+            <div class="table-container">
+                <table id="tasksTable">
+                    <thead>
+                        <tr>
+                            <th>Fase</th>
+                            <th>Tarefa</th>
+                            <th>Responsáveis</th>
+                            <th>Prazo</th>
+                            <th>Status</th>
+                            <th>Observações</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasksBody">
+                        <!-- Dados serão carregados via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Formulário - Seção retrátil para Tarefas -->
+            <div class="card form-section add-task-section" id="addTaskSection">
+                <div class="card-title">
+                    + Adicionar Nova Tarefa
+                    <button class="btn btn-secondary" onclick="toggleAddItem()" style="margin-left: auto;">
+                        × Fechar
+                    </button>
                 </div>
-                <button type="submit" class="btn btn-primary">
-                    + Adicionar Tarefa
-                </button>
-            </form>
+                <form id="taskForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fase">Fase</label>
+                            <select id="fase" required>
+                                <option value="">Selecionar fase</option>
+                                <option value="Planejamento">Planejamento</option>
+                                <option value="Preparação">Preparação</option>
+                                <option value="Execução">Execução</option>
+                                <option value="Finalização">Finalização</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tarefa">Tarefa</label>
+                            <input type="text" id="tarefa" required placeholder="Descrição da tarefa">
+                        </div>
+                        <div class="form-group">
+                            <label for="responsaveis">Responsáveis</label>
+                            <input type="text" id="responsaveis" required placeholder="Nome1, Nome2, Nome3">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prazo">Prazo</label>
+                            <input type="date" id="prazo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select id="status" required>
+                                <option value="">Selecionar status</option>
+                                <option value="Pendente">Pendente</option>
+                                <option value="Em Andamento">Em Andamento</option>
+                                <option value="Concluída">Concluída</option>
+                                <option value="Atrasada">Atrasada</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="observacoes">Observações</label>
+                        <textarea id="observacoes" placeholder="Observações adicionais (opcional)"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        + Adicionar Tarefa
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ABA CHECKLIST -->
+        <div class="tab-content" id="checklist-content">
+            <!-- Filtros Checklist -->
+            <div class="filters">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="filtroComodo">Filtrar por Cômodo</label>
+                        <input type="text" id="filtroComodo" placeholder="Nome do cômodo">
+                    </div>
+                    <div class="form-group">
+                        <label for="filtroObjeto">Filtrar por Objeto</label>
+                        <input type="text" id="filtroObjeto" placeholder="Nome do objeto">
+                    </div>
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-secondary" onclick="limparFiltrosChecklist()">
+                            Limpar Filtros
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela de Checklist -->
+            <div class="table-container">
+                <table id="checklistTable">
+                    <thead>
+                        <tr>
+                            <th>Cômodo</th>
+                            <th>Objeto</th>
+                            <th>Casa Nova (NJ)</th>
+                            <th>Casa Local (LC)</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="checklistBody">
+                        <!-- Dados serão carregados via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Formulário - Seção retrátil para Checklist -->
+            <div class="card form-section add-task-section" id="addChecklistSection">
+                <div class="card-title">
+                    + Adicionar Novo Item
+                    <button class="btn btn-secondary" onclick="toggleAddItem()" style="margin-left: auto;">
+                        × Fechar
+                    </button>
+                </div>
+                <form id="checklistForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="comodo">Cômodo</label>
+                            <input type="text" id="comodo" required placeholder="Ex: Sala, Quarto, Cozinha">
+                        </div>
+                        <div class="form-group">
+                            <label for="objeto">Objeto</label>
+                            <input type="text" id="objeto" required placeholder="Ex: Mesa, Cadeira, Geladeira">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quantidadeNJ">Quantidade Nova Jérsei (NJ)</label>
+                            <input type="number" id="quantidadeNJ" min="0" value="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantidadeLC">Quantidade Local (LC)</label>
+                            <input type="number" id="quantidadeLC" min="0" value="0" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        + Adicionar Item
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- Modal de Edição -->
+    <!-- Modal de Edição para Tarefas -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -732,35 +887,65 @@
         </div>
     </div>
 
+    <!-- Modal de Edição para Checklist -->
+    <div id="editChecklistModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Item do Checklist</h3>
+                <button class="close-modal" onclick="fecharChecklistModal()">&times;</button>
+            </div>
+            <form id="editChecklistForm">
+                <input type="hidden" id="editChecklistRowId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editComodo">Cômodo</label>
+                        <input type="text" id="editComodo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editObjeto">Objeto</label>
+                        <input type="text" id="editObjeto" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editQuantidadeNJ">Quantidade Nova Jérsei (NJ)</label>
+                        <input type="number" id="editQuantidadeNJ" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editQuantidadeLC">Quantidade Local (LC)</label>
+                        <input type="number" id="editQuantidadeLC" min="0" required>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary" onclick="fecharChecklistModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // URL DO APPS SCRIPT - COLOQUE A SUA AQUI
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw470Btw73qudZg59IONrTsyGQo8XvBDq6eZMBVxFzTUuMr4g2ndLxrfE4Y2WhTyem7/exec';
 
-        // Dados locais com exemplos iniciais
-        let tasks = JSON.parse(localStorage.getItem('mudancaTasks')) || [
-            {
-                id: 1,
-                fase: 'Planejamento',
-                tarefa: 'Definir data da mudança',
-                responsaveis: 'João, Maria',
-                prazo: '15/09/2024',
-                status: 'Concluída',
-                observacoes: 'Data definida para 30/09'
-            },
-            {
-                id: 2,
-                fase: 'Preparação',
-                tarefa: 'Contratar empresa de mudança',
-                responsaveis: 'João',
-                prazo: '20/09/2024',
-                status: 'Em Andamento',
-                observacoes: 'Orçamentos solicitados'
-            }
-        ];
-        
-        let nextId = Math.max(...tasks.map(t => t.id), 0) + 1;
+        // Estados globais
+        let currentTab = 'tasks';
+        let nextTaskId = 1;
+        let nextChecklistId = 1;
 
-        // Toggle do tema
+        // Dados locais
+        let tasks = JSON.parse(localStorage.getItem('mudancaTasks')) || [];
+        let checklist = JSON.parse(localStorage.getItem('mudancaChecklist')) || [];
+
+        // Atualizar IDs
+        if (tasks.length > 0) {
+            nextTaskId = Math.max(...tasks.map(t => t.id || 0)) + 1;
+        }
+        if (checklist.length > 0) {
+            nextChecklistId = Math.max(...checklist.map(c => c.id || 0)) + 1;
+        }
+
+        // FUNÇÕES GLOBAIS
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -772,67 +957,94 @@
             icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
         }
 
-        // Inicializar tema
         function initTheme() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             
             const icon = document.getElementById('themeIcon');
-            icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            if (icon) {
+                icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            }
         }
 
-        // Toggle da seção de adicionar tarefa
-        function toggleAddTask() {
-            const section = document.getElementById('addTaskSection');
-            const isVisible = section.classList.contains('show');
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
-            if (isVisible) {
+            const tabBtn = document.querySelector(`[onclick="switchTab('${tab}')"]`);
+            if (tabBtn) {
+                tabBtn.classList.add('active');
+            }
+            
+            const tabContent = document.getElementById(tab + '-content');
+            if (tabContent) {
+                tabContent.classList.add('active');
+            }
+            
+            currentTab = tab;
+            
+            document.querySelectorAll('.add-task-section').forEach(section => {
                 section.classList.remove('show');
-            } else {
+            });
+            
+            const addBtn = document.getElementById('addItemBtn');
+            if (addBtn) {
+                addBtn.textContent = tab === 'tasks' ? '+ Nova Tarefa' : '+ Novo Item';
+            }
+        }
+
+        function toggleAddItem() {
+            const sectionId = currentTab === 'tasks' ? 'addTaskSection' : 'addChecklistSection';
+            const section = document.getElementById(sectionId);
+            const isVisible = section && section.classList.contains('show');
+            
+            document.querySelectorAll('.add-task-section').forEach(s => s.classList.remove('show'));
+            
+            if (!isVisible && section) {
                 section.classList.add('show');
                 section.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 setTimeout(() => {
-                    document.getElementById('fase').focus();
+                    const firstInput = section.querySelector('input, select');
+                    if (firstInput) firstInput.focus();
                 }, 300);
             }
         }
 
-        // Salvar dados no localStorage
         function salvarDados() {
             localStorage.setItem('mudancaTasks', JSON.stringify(tasks));
+            localStorage.setItem('mudancaChecklist', JSON.stringify(checklist));
         }
 
-        // Atualizar status da conexão
         function updateConnectionStatus(type, message) {
             const statusEl = document.getElementById('connectionStatus');
-            statusEl.style.display = 'block';
-            statusEl.textContent = message;
-            statusEl.className = `status-display status-${type}`;
-            
-            console.log(`Status: ${type} - ${message}`);
-            
-            // Ocultar após 5 segundos se não for erro
-            if (type !== 'error') {
-                setTimeout(() => {
-                    statusEl.style.display = 'none';
-                }, 5000);
+            if (statusEl) {
+                statusEl.style.display = 'block';
+                statusEl.textContent = message;
+                statusEl.className = `status-display status-${type}`;
+                
+                console.log(`Status: ${type} - ${message}`);
+                
+                if (type !== 'error') {
+                    setTimeout(() => {
+                        statusEl.style.display = 'none';
+                    }, 5000);
+                }
             }
         }
 
-        // Carregar dados do Google Sheets
-        async function carregarDados(automatico = false) {
+        async function carregarChecklist(automatico = false) {
             if (!automatico) {
-                updateConnectionStatus('loading', 'Carregando dados do Google Sheets...');
+                updateConnectionStatus('loading', 'Carregando checklist...');
             }
             
             return new Promise((resolve) => {
-                const callbackName = 'loadData' + Date.now();
+                const callbackName = 'loadChecklist' + Date.now();
                 const script = document.createElement('script');
                 
                 const timeout = setTimeout(() => {
                     cleanup();
                     if (!automatico) {
-                        updateConnectionStatus('error', 'Timeout ao carregar dados do Google Sheets');
+                        updateConnectionStatus('error', 'Timeout ao carregar checklist');
                     }
                     resolve(false);
                 }, automatico ? 5000 : 15000);
@@ -842,54 +1054,52 @@
                     if (script.parentNode) {
                         document.head.removeChild(script);
                     }
-                    delete window[callbackName];
+                    if (window[callbackName]) {
+                        delete window[callbackName];
+                    }
                 }
 
                 window[callbackName] = function(data) {
                     cleanup();
+                    console.log('Resposta do checklist:', data);
                     
                     if (data && data.success && data.data) {
-                        // Processar dados recebidos
                         const dadosRecebidos = data.data.filter(item => 
-                            item.tarefa && item.tarefa.trim() !== ''
+                            item.objeto && item.objeto.trim() !== ''
                         );
                         
                         if (dadosRecebidos.length > 0) {
-                            tasks = dadosRecebidos;
-                            // Garantir que todos os IDs sejam únicos
-                            tasks.forEach((task, index) => {
-                                if (!task.id) {
-                                    task.id = index + 1;
+                            checklist = dadosRecebidos;
+                            checklist.forEach((item, index) => {
+                                if (!item.id) {
+                                    item.id = index + 1;
                                 }
                             });
-                            nextId = Math.max(...tasks.map(t => t.id || 0)) + 1;
+                            nextChecklistId = Math.max(...checklist.map(c => c.id || 0)) + 1;
                             
                             salvarDados();
-                            carregarTabela();
+                            if (currentTab === 'checklist') {
+                                carregarTabelaChecklist();
+                            }
                             
                             if (!automatico) {
-                                updateConnectionStatus('connected', `${tasks.length} tarefas carregadas com sucesso!`);
+                                updateConnectionStatus('connected', `${checklist.length} itens carregados!`);
                             }
-                            console.log(`Dados carregados: ${tasks.length} tarefas`);
-                        } else {
-                            if (!automatico) {
-                                updateConnectionStatus('connected', 'Planilha conectada (vazia)');
-                            }
+                        } else if (!automatico) {
+                            updateConnectionStatus('connected', 'Checklist conectado (vazio)');
                         }
-                    } else {
-                        if (!automatico) {
-                            updateConnectionStatus('error', 'Erro ao carregar dados: ' + (data?.error || 'Resposta inválida'));
-                        }
+                    } else if (!automatico) {
+                        updateConnectionStatus('error', 'Erro ao carregar checklist: ' + (data?.error || 'Resposta inválida'));
                     }
                     
                     resolve(data && data.success);
                 };
 
-                script.src = `${APPS_SCRIPT_URL}?callback=${callbackName}&action=obterTarefas&t=${Date.now()}`;
+                script.src = `${APPS_SCRIPT_URL}?callback=${callbackName}&action=obterChecklist&sheet=checklist&t=${Date.now()}`;
                 script.onerror = function() {
                     cleanup();
                     if (!automatico) {
-                        updateConnectionStatus('error', 'Erro de conexão - verifique se o Apps Script está ativo');
+                        updateConnectionStatus('error', 'Erro de conexão - checklist');
                     }
                     resolve(false);
                 };
@@ -898,255 +1108,11 @@
             });
         }
 
-        // Adicionar nova tarefa
-        async function adicionarTarefa(dados) {
-            // Converter data para formato brasileiro
-            let dataFormatada = dados.prazo;
-            if (dados.prazo && dados.prazo.includes('-')) {
-                const [ano, mes, dia] = dados.prazo.split('-');
-                dataFormatada = `${dia}/${mes}/${ano}`;
-            }
-            
-            const dadosFormatados = {
-                ...dados,
-                prazo: dataFormatada,
-                id: nextId++
-            };
-            
-            // Adicionar localmente primeiro
-            tasks.push(dadosFormatados);
-            carregarTabela();
-            salvarDados();
-            
-            updateConnectionStatus('loading', 'Salvando tarefa no Google Sheets...');
-            
-            return new Promise((resolve) => {
-                const callbackName = 'addTask' + Date.now();
-                const script = document.createElement('script');
-                
-                const timeout = setTimeout(() => {
-                    cleanup();
-                    updateConnectionStatus('error', 'Timeout ao salvar - tarefa mantida localmente');
-                    resolve(false);
-                }, 15000);
-
-                function cleanup() {
-                    clearTimeout(timeout);
-                    if (script.parentNode) {
-                        document.head.removeChild(script);
-                    }
-                    delete window[callbackName];
-                }
-
-                window[callbackName] = function(data) {
-                    cleanup();
-                    
-                    if (data && data.success) {
-                        updateConnectionStatus('connected', 'Tarefa salva com sucesso no Google Sheets!');
-                        // Recarregar dados após salvar
-                        setTimeout(() => carregarDados(true), 1000);
-                    } else {
-                        updateConnectionStatus('error', 'Erro ao salvar: ' + (data?.error || 'Falha desconhecida'));
-                    }
-                    
-                    resolve(data && data.success);
-                };
-
-                // Criar URL com parâmetros
-                const params = new URLSearchParams({
-                    callback: callbackName,
-                    action: 'adicionarTarefa',
-                    fase: dadosFormatados.fase || '',
-                    tarefa: dadosFormatados.tarefa || '',
-                    responsaveis: dadosFormatados.responsaveis || '',
-                    prazo: dadosFormatados.prazo || '',
-                    status: dadosFormatados.status || '',
-                    observacoes: dadosFormatados.observacoes || '',
-                    t: Date.now()
-                });
-                
-                script.src = `${APPS_SCRIPT_URL}?${params.toString()}`;
-                script.onerror = function() {
-                    cleanup();
-                    updateConnectionStatus('error', 'Erro de conexão ao salvar tarefa');
-                    resolve(false);
-                };
-                
-                document.head.appendChild(script);
-            });
-        }
-
-        // Editar tarefa
-        function editarTarefa(id) {
-            const task = tasks.find(t => t.id == id);
-            if (!task) {
-                alert('Tarefa não encontrada!');
-                return;
-            }
-            
-            document.getElementById('editRowId').value = id;
-            document.getElementById('editFase').value = task.fase;
-            document.getElementById('editTarefa').value = task.tarefa;
-            document.getElementById('editResponsaveis').value = task.responsaveis;
-            
-            // Converter data brasileira para formato de input
-            let dataInput = task.prazo;
-            if (task.prazo && task.prazo.includes('/')) {
-                const [dia, mes, ano] = task.prazo.split('/');
-                dataInput = `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
-            }
-            document.getElementById('editPrazo').value = dataInput;
-            
-            document.getElementById('editStatus').value = task.status;
-            document.getElementById('editObservacoes').value = task.observacoes || '';
-            
-            document.getElementById('editModal').style.display = 'block';
-        }
-
-        // Salvar edição
-        async function salvarEdicao(id, dados) {
-            // Converter data para formato brasileiro
-            let dataFormatada = dados.prazo;
-            if (dados.prazo && dados.prazo.includes('-')) {
-                const [ano, mes, dia] = dados.prazo.split('-');
-                dataFormatada = `${dia}/${mes}/${ano}`;
-            }
-            
-            const dadosFormatados = {
-                ...dados,
-                prazo: dataFormatada
-            };
-            
-            // Atualizar localmente primeiro
-            const taskIndex = tasks.findIndex(t => t.id == id);
-            if (taskIndex !== -1) {
-                tasks[taskIndex] = { id: parseInt(id), ...dadosFormatados };
-                carregarTabela();
-                salvarDados();
-            }
-            
-            updateConnectionStatus('loading', 'Atualizando tarefa no Google Sheets...');
-            
-            return new Promise((resolve) => {
-                const callbackName = 'editTask' + Date.now();
-                const script = document.createElement('script');
-                
-                const timeout = setTimeout(() => {
-                    cleanup();
-                    updateConnectionStatus('error', 'Timeout ao atualizar - alterações mantidas localmente');
-                    resolve(false);
-                }, 15000);
-
-                function cleanup() {
-                    clearTimeout(timeout);
-                    if (script.parentNode) {
-                        document.head.removeChild(script);
-                    }
-                    delete window[callbackName];
-                }
-
-                window[callbackName] = function(data) {
-                    cleanup();
-                    
-                    if (data && data.success) {
-                        updateConnectionStatus('connected', 'Tarefa atualizada com sucesso!');
-                    } else {
-                        updateConnectionStatus('error', 'Erro ao atualizar: ' + (data?.error || 'Falha desconhecida'));
-                    }
-                    
-                    resolve(data && data.success);
-                };
-
-                const params = new URLSearchParams({
-                    callback: callbackName,
-                    action: 'atualizarTarefa',
-                    id: id,
-                    fase: dadosFormatados.fase || '',
-                    tarefa: dadosFormatados.tarefa || '',
-                    responsaveis: dadosFormatados.responsaveis || '',
-                    prazo: dadosFormatados.prazo || '',
-                    status: dadosFormatados.status || '',
-                    observacoes: dadosFormatados.observacoes || '',
-                    t: Date.now()
-                });
-                
-                script.src = `${APPS_SCRIPT_URL}?${params.toString()}`;
-                script.onerror = function() {
-                    cleanup();
-                    updateConnectionStatus('error', 'Erro de conexão ao atualizar tarefa');
-                    resolve(false);
-                };
-                
-                document.head.appendChild(script);
-            });
-        }
-
-        // Excluir tarefa
-        async function excluirTarefa(id) {
-            if (!confirm('Tem certeza que deseja excluir esta tarefa?')) {
-                return;
-            }
-
-            // Remover localmente primeiro
-            tasks = tasks.filter(t => t.id != id);
-            carregarTabela();
-            salvarDados();
-            
-            updateConnectionStatus('loading', 'Excluindo tarefa do Google Sheets...');
-            
-            return new Promise((resolve) => {
-                const callbackName = 'deleteTask' + Date.now();
-                const script = document.createElement('script');
-                
-                const timeout = setTimeout(() => {
-                    cleanup();
-                    updateConnectionStatus('error', 'Timeout ao excluir - tarefa removida localmente');
-                    resolve(false);
-                }, 15000);
-
-                function cleanup() {
-                    clearTimeout(timeout);
-                    if (script.parentNode) {
-                        document.head.removeChild(script);
-                    }
-                    delete window[callbackName];
-                }
-
-                window[callbackName] = function(data) {
-                    cleanup();
-                    
-                    if (data && data.success) {
-                        updateConnectionStatus('connected', 'Tarefa excluída com sucesso!');
-                    } else {
-                        updateConnectionStatus('error', 'Erro ao excluir: ' + (data?.error || 'Falha desconhecida'));
-                    }
-                    
-                    resolve(data && data.success);
-                };
-
-                const params = new URLSearchParams({
-                    callback: callbackName,
-                    action: 'excluirTarefa',
-                    id: id,
-                    t: Date.now()
-                });
-                
-                script.src = `${APPS_SCRIPT_URL}?${params.toString()}`;
-                script.onerror = function() {
-                    cleanup();
-                    updateConnectionStatus('error', 'Erro de conexão ao excluir tarefa');
-                    resolve(false);
-                };
-                
-                document.head.appendChild(script);
-            });
-        }
-
-        // Carregar tabela
-        function carregarTabela(dadosFiltrados = null) {
+        function carregarTabelaTasks(dadosFiltrados = null) {
             const tbody = document.getElementById('tasksBody');
-            const dados = dadosFiltrados || tasks;
+            if (!tbody) return;
             
+            const dados = dadosFiltrados || tasks;
             tbody.innerHTML = '';
             
             if (dados.length === 0) {
@@ -1186,8 +1152,123 @@
             });
         }
 
-        // Aplicar filtros
-        function aplicarFiltros() {
+        function carregarTabelaChecklist(dadosFiltrados = null) {
+            const tbody = document.getElementById('checklistBody');
+            if (!tbody) return;
+            
+            const dados = dadosFiltrados || checklist;
+            tbody.innerHTML = '';
+            
+            if (dados.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="empty-state">
+                            Nenhum item encontrado. Adicione o primeiro item!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            dados.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${item.comodo || ''}</strong></td>
+                    <td>${item.objeto || ''}</td>
+                    <td><span class="quantity-badge quantity-nj">NJ: ${item.quantidadeNJ || 0}</span></td>
+                    <td><span class="quantity-badge quantity-lc">LC: ${item.quantidadeLC || 0}</span></td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn edit-btn" onclick="editarChecklistItem(${item.id})">Editar</button>
+                            <button class="action-btn delete-btn" onclick="excluirChecklistItem(${item.id})">Excluir</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function editarTarefa(id) {
+            const task = tasks.find(t => t.id == id);
+            if (!task) {
+                alert('Tarefa não encontrada!');
+                return;
+            }
+            
+            document.getElementById('editRowId').value = id;
+            document.getElementById('editFase').value = task.fase;
+            document.getElementById('editTarefa').value = task.tarefa;
+            document.getElementById('editResponsaveis').value = task.responsaveis;
+            
+            let dataInput = task.prazo;
+            if (task.prazo && task.prazo.includes('/')) {
+                const [dia, mes, ano] = task.prazo.split('/');
+                dataInput = `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+            }
+            document.getElementById('editPrazo').value = dataInput;
+            
+            document.getElementById('editStatus').value = task.status;
+            document.getElementById('editObservacoes').value = task.observacoes || '';
+            
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function editarChecklistItem(id) {
+            const item = checklist.find(c => c.id == id);
+            if (!item) {
+                alert('Item não encontrado!');
+                return;
+            }
+            
+            document.getElementById('editChecklistRowId').value = id;
+            document.getElementById('editComodo').value = item.comodo;
+            document.getElementById('editObjeto').value = item.objeto;
+            document.getElementById('editQuantidadeNJ').value = item.quantidadeNJ;
+            document.getElementById('editQuantidadeLC').value = item.quantidadeLC;
+            
+            document.getElementById('editChecklistModal').style.display = 'block';
+        }
+
+        function excluirTarefa(id) {
+            if (!confirm('Tem certeza que deseja excluir esta tarefa?')) {
+                return;
+            }
+            tasks = tasks.filter(t => t.id != id);
+            carregarTabelaTasks();
+            salvarDados();
+        }
+
+        function excluirChecklistItem(id) {
+            if (!confirm('Tem certeza que deseja excluir este item?')) {
+                return;
+            }
+            checklist = checklist.filter(c => c.id != id);
+            carregarTabelaChecklist();
+            salvarDados();
+        }
+
+        function limparFiltrosTasks() {
+            document.getElementById('filtroFase').value = '';
+            document.getElementById('filtroStatus').value = '';
+            document.getElementById('filtroResponsavel').value = '';
+            carregarTabelaTasks();
+        }
+
+        function limparFiltrosChecklist() {
+            document.getElementById('filtroComodo').value = '';
+            document.getElementById('filtroObjeto').value = '';
+            carregarTabelaChecklist();
+        }
+
+        function fecharModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function fecharChecklistModal() {
+            document.getElementById('editChecklistModal').style.display = 'none';
+        }
+
+        function aplicarFiltrosTasks() {
             const filtroFase = document.getElementById('filtroFase').value;
             const filtroStatus = document.getElementById('filtroStatus').value;
             const filtroResponsavel = document.getElementById('filtroResponsavel').value.toLowerCase();
@@ -1208,91 +1289,176 @@
                 );
             }
             
-            carregarTabela(dadosFiltrados);
+            carregarTabelaTasks(dadosFiltrados);
         }
 
-        // Limpar filtros
-        function limparFiltros() {
-            document.getElementById('filtroFase').value = '';
-            document.getElementById('filtroStatus').value = '';
-            document.getElementById('filtroResponsavel').value = '';
-            carregarTabela();
+        function aplicarFiltrosChecklist() {
+            const filtroComodo = document.getElementById('filtroComodo').value.toLowerCase();
+            const filtroObjeto = document.getElementById('filtroObjeto').value.toLowerCase();
+            
+            let dadosFiltrados = checklist;
+            
+            if (filtroComodo) {
+                dadosFiltrados = dadosFiltrados.filter(item => 
+                    (item.comodo || '').toLowerCase().includes(filtroComodo)
+                );
+            }
+            
+            if (filtroObjeto) {
+                dadosFiltrados = dadosFiltrados.filter(item => 
+                    (item.objeto || '').toLowerCase().includes(filtroObjeto)
+                );
+            }
+            
+            carregarTabelaChecklist(dadosFiltrados);
         }
 
-        // Fechar modal
-        function fecharModal() {
-            document.getElementById('editModal').style.display = 'none';
-        }
-
-        // Inicialização
+        // INICIALIZAÇÃO
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar tema
+            console.log('Inicializando sistema...');
+            
             initTheme();
-            
-            // Carregar tabela inicial
-            carregarTabela();
-            
-            // Carregar dados do Google Sheets após 1 segundo
-            setTimeout(() => {
-                carregarDados();
-            }, 1000);
-            
-            // Auto-sincronizar a cada 60 segundos
-            setInterval(() => {
-                carregarDados(true);
-            }, 60000);
+            carregarTabelaTasks();
+            carregarTabelaChecklist();
 
-            // Event Listeners
+            // Carregar dados do Google Sheets
+            setTimeout(() => {
+                carregarChecklist();
+            }, 1000);
+
+            // Formulário de tarefas
+            const taskForm = document.getElementById('taskForm');
+            if (taskForm) {
+                taskForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    let dataFormatada = document.getElementById('prazo').value;
+                    if (dataFormatada && dataFormatada.includes('-')) {
+                        const [ano, mes, dia] = dataFormatada.split('-');
+                        dataFormatada = `${dia}/${mes}/${ano}`;
+                    }
+                    
+                    const novaTarefa = {
+                        id: nextTaskId++,
+                        fase: document.getElementById('fase').value,
+                        tarefa: document.getElementById('tarefa').value,
+                        responsaveis: document.getElementById('responsaveis').value,
+                        prazo: dataFormatada,
+                        status: document.getElementById('status').value,
+                        observacoes: document.getElementById('observacoes').value
+                    };
+                    
+                    tasks.push(novaTarefa);
+                    carregarTabelaTasks();
+                    salvarDados();
+                    this.reset();
+                    document.getElementById('addTaskSection').classList.remove('show');
+                });
+            }
             
-            // Formulário principal
-            document.getElementById('taskForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const dados = {
-                    fase: document.getElementById('fase').value,
-                    tarefa: document.getElementById('tarefa').value,
-                    responsaveis: document.getElementById('responsaveis').value,
-                    prazo: document.getElementById('prazo').value,
-                    status: document.getElementById('status').value,
-                    observacoes: document.getElementById('observacoes').value
-                };
-                
-                await adicionarTarefa(dados);
-                this.reset();
-                
-                // Fechar seção após adicionar
-                document.getElementById('addTaskSection').classList.remove('show');
-            });
+            // Formulário de checklist
+            const checklistForm = document.getElementById('checklistForm');
+            if (checklistForm) {
+                checklistForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const novoItem = {
+                        id: nextChecklistId++,
+                        comodo: document.getElementById('comodo').value,
+                        objeto: document.getElementById('objeto').value,
+                        quantidadeNJ: parseInt(document.getElementById('quantidadeNJ').value) || 0,
+                        quantidadeLC: parseInt(document.getElementById('quantidadeLC').value) || 0
+                    };
+                    
+                    checklist.push(novoItem);
+                    carregarTabelaChecklist();
+                    salvarDados();
+                    this.reset();
+                    document.getElementById('addChecklistSection').classList.remove('show');
+                });
+            }
             
-            // Formulário de edição
-            document.getElementById('editForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const id = document.getElementById('editRowId').value;
-                const dados = {
-                    fase: document.getElementById('editFase').value,
-                    tarefa: document.getElementById('editTarefa').value,
-                    responsaveis: document.getElementById('editResponsaveis').value,
-                    prazo: document.getElementById('editPrazo').value,
-                    status: document.getElementById('editStatus').value,
-                    observacoes: document.getElementById('editObservacoes').value
-                };
-                
-                salvarEdicao(id, dados).then(() => {
+            // Formulário de edição de tarefas
+            const editForm = document.getElementById('editForm');
+            if (editForm) {
+                editForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const id = document.getElementById('editRowId').value;
+                    let dataFormatada = document.getElementById('editPrazo').value;
+                    if (dataFormatada && dataFormatada.includes('-')) {
+                        const [ano, mes, dia] = dataFormatada.split('-');
+                        dataFormatada = `${dia}/${mes}/${ano}`;
+                    }
+                    
+                    const taskIndex = tasks.findIndex(t => t.id == id);
+                    if (taskIndex !== -1) {
+                        tasks[taskIndex] = {
+                            id: parseInt(id),
+                            fase: document.getElementById('editFase').value,
+                            tarefa: document.getElementById('editTarefa').value,
+                            responsaveis: document.getElementById('editResponsaveis').value,
+                            prazo: dataFormatada,
+                            status: document.getElementById('editStatus').value,
+                            observacoes: document.getElementById('editObservacoes').value
+                        };
+                        carregarTabelaTasks();
+                        salvarDados();
+                    }
+                    
                     fecharModal();
                 });
-            });
+            }
+            
+            // Formulário de edição de checklist
+            const editChecklistForm = document.getElementById('editChecklistForm');
+            if (editChecklistForm) {
+                editChecklistForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const id = document.getElementById('editChecklistRowId').value;
+                    const itemIndex = checklist.findIndex(c => c.id == id);
+                    
+                    if (itemIndex !== -1) {
+                        checklist[itemIndex] = {
+                            id: parseInt(id),
+                            comodo: document.getElementById('editComodo').value,
+                            objeto: document.getElementById('editObjeto').value,
+                            quantidadeNJ: parseInt(document.getElementById('editQuantidadeNJ').value) || 0,
+                            quantidadeLC: parseInt(document.getElementById('editQuantidadeLC').value) || 0
+                        };
+                        carregarTabelaChecklist();
+                        salvarDados();
+                    }
+                    
+                    fecharChecklistModal();
+                });
+            }
             
             // Filtros
-            document.getElementById('filtroFase').addEventListener('change', aplicarFiltros);
-            document.getElementById('filtroStatus').addEventListener('change', aplicarFiltros);
-            document.getElementById('filtroResponsavel').addEventListener('input', aplicarFiltros);
+            const filtroFase = document.getElementById('filtroFase');
+            const filtroStatus = document.getElementById('filtroStatus');
+            const filtroResponsavel = document.getElementById('filtroResponsavel');
+            const filtroComodo = document.getElementById('filtroComodo');
+            const filtroObjeto = document.getElementById('filtroObjeto');
             
-            // Fechar modal clicando fora
+            if (filtroFase) filtroFase.addEventListener('change', aplicarFiltrosTasks);
+            if (filtroStatus) filtroStatus.addEventListener('change', aplicarFiltrosTasks);
+            if (filtroResponsavel) filtroResponsavel.addEventListener('input', aplicarFiltrosTasks);
+            if (filtroComodo) filtroComodo.addEventListener('input', aplicarFiltrosChecklist);
+            if (filtroObjeto) filtroObjeto.addEventListener('input', aplicarFiltrosChecklist);
+            
+            // Fechar modais clicando fora
             window.addEventListener('click', function(e) {
                 const modal = document.getElementById('editModal');
+                const checklistModal = document.getElementById('editChecklistModal');
+                
                 if (e.target === modal) {
                     fecharModal();
+                }
+                
+                if (e.target === checklistModal) {
+                    fecharChecklistModal();
                 }
             });
             
