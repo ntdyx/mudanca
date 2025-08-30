@@ -1078,9 +1078,7 @@
                             nextChecklistId = Math.max(...checklist.map(c => c.id || 0)) + 1;
                             
                             salvarDados();
-                            if (currentTab === 'checklist') {
-                                carregarTabelaChecklist();
-                            }
+                            carregarTabelaChecklist(); // SEMPRE carregar a tabela
                             
                             if (!automatico) {
                                 updateConnectionStatus('connected', `${checklist.length} itens carregados!`);
@@ -1095,7 +1093,10 @@
                     resolve(data && data.success);
                 };
 
-                script.src = `${APPS_SCRIPT_URL}?callback=${callbackName}&action=obterChecklist&sheet=checklist&t=${Date.now()}`;
+                const url = `${APPS_SCRIPT_URL}?callback=${callbackName}&action=obterChecklist&sheet=checklist&t=${Date.now()}`;
+                console.log('URL chamada para checklist:', url);
+                
+                script.src = url;
                 script.onerror = function() {
                     cleanup();
                     if (!automatico) {
